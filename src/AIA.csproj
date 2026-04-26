@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="TimHanewich.AgentFramework" Version="1.1.0" />
+    <PackageReference Include="TimHanewich.Investing" Version="5.0.0" />
+  </ItemGroup>
+
 </Project>
