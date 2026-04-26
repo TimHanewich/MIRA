@@ -1,0 +1,49 @@
+using System;
+using TimHanewich.Investing.Simulation;
+using TimHanewich.Investing.Simulation.Performance;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace AIA
+{
+    public class State
+    {
+        public Portfolio Portfolio {get; set;}
+        public List<JournalEntry> InvestmentJournal {get; set;}
+
+        public State()
+        {
+            Portfolio = new Portfolio();
+            InvestmentJournal = new List<JournalEntry>();
+        }
+
+        public static string SavePath
+        {
+            get
+            {
+                return Path.Combine(Tools.ConfigDirectoryPath, "state.json");
+            }
+        }
+
+        public static State Load()
+        {
+            if (System.IO.File.Exists(SavePath))
+            {
+                string content = System.IO.File.ReadAllText(SavePath);
+                State? loaded = JsonConvert.DeserializeObject<State>(content);
+                if (loaded != null)
+                {
+                    return loaded;
+                }
+            }
+            return new State();
+        }
+
+        public void Save()
+        {
+            string content = JsonConvert.SerializeObject(this, Formatting.Indented);
+            System.IO.File.WriteAllText(SavePath, content);
+        }
+        
+    }
+}
