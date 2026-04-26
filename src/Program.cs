@@ -6,7 +6,10 @@ namespace AIA
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("hi!");
+            AIASettings settings = AIASettings.Load();
+            settings.FoundryEndpoint = "hi";
+            settings.Save();
+            Console.WriteLine(AIASettings.SavePath);
         }
     }
 }
