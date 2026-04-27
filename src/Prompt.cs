@@ -73,9 +73,10 @@ namespace AIA
                 {
                     if (tp.PostedDate.Year == DateTime.Now.Year && tp.PostedDate.Month == DateTime.Now.Month && tp.PostedDate.Day == DateTime.Now.Day)
                     {
-                        prompt.Add(tp.Title + " (" + tp.Url + ")");
+                        prompt.Add("- " + tp.Title + " (" + tp.Url + ")");
                     }
                 }
+                prompt.Add("");
             }
 
             //Encouragement
