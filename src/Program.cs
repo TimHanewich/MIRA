@@ -126,8 +126,8 @@ namespace AIA
             
             //Register tools
             AIA.Tools.Add(new Quote());
-            AIA.Tools.Add(new Buy());
-            AIA.Tools.Add(new Sell());
+            AIA.Tools.Add(new Buy(state));
+            AIA.Tools.Add(new Sell(state));
 
             //Prompt it
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
