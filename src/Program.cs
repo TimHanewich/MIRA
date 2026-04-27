@@ -15,7 +15,7 @@ namespace AIA
         public static void Main(string[] args)
         {
             //EnterAsync().Wait();
-            //WakeAsync().Wait();
+            WakeAsync().Wait();
         }
 
         public static async Task EnterAsync()
@@ -96,6 +96,7 @@ namespace AIA
             //Load state
             AnsiConsole.Markup("Loading State from storage... ");
             State state = State.Load();
+            AnsiConsole.MarkupLine("[green]loaded[/]");
 
             //Check if portfolio is brand new (i.e. hasn't even been started yet)
             AnsiConsole.Markup("Checking if portfolio is new... ");
@@ -106,10 +107,11 @@ namespace AIA
                 
                 AnsiConsole.MarkupLine("[green]done[/]");
             }
-
-            //Confirm portfolio
-            AnsiConsole.MarkupLine("Portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.");
-
+            else
+            {
+                AnsiConsole.MarkupLine("[green]portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.[/]");
+            }
+          
             //Gather current portfolio value and such
             AnsiConsole.Markup("Gathering portfolio performance details... ");
             PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
