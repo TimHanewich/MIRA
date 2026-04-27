@@ -12,7 +12,7 @@ namespace AIA
         {
             Name = "read_earnings_call_transcript";
             Description = "Read the contents of an earnings call transcript.";
-            InputParameters.Add(new TimHanewich.Foundry.OpenAI.Responses.FunctionInputParameter("url", "The URL to the transcript."));
+            InputParameters.Add(new TimHanewich.Foundry.OpenAI.Responses.FunctionInputParameter("url", "The URL to the transcript at fool.com, e.g. 'https://www.fool.com/earnings/call-transcripts/2026/01/28/meta-meta-q4-2025-earnings-call-transcript/'"));
         }
 
         public override async Task<string> ExecuteAsync(JObject? arguments)
