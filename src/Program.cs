@@ -153,7 +153,28 @@ namespace AIA
             //Prompt it
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
             int TradeLimit = 10; //the limit number of trades this agent can make in this one turn
-            string response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.\nNOTE: I WANT YOU TO READ AT LEAST 3 EARNINGS CALL TRANSCRIPTS. THIS IS IMPORTANT.");
+            string? response = null;
+            while (response == null)
+            {
+                try
+                {
+                    response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.\nNOTE: I WANT YOU TO READ AT LEAST 3 EARNINGS CALL TRANSCRIPTS. THIS IS IMPORTANT.");
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.MarkupLine("[red]Prompt failed! Msg: " + Markup.Escape(ex.Message) + "[/]");
+                }
+
+                if (response == null)
+                {
+                    Console.WriteLine();
+                    AnsiConsole.MarkupLine("[red]Prompting of model (" + prompt_str.Length.ToString("#,##0") + " characters) failed. Waiting 60 seconds and then trying again.[/]");
+                    AnsiConsole.Markup("[red]60 second cooldown... [/]");
+                    await Task.Delay(60_000);
+                    AnsiConsole.MarkupLine("[red]okay, let's try again.[/]");
+                }
+            }
+            
         
             //Print response
             Console.WriteLine();
