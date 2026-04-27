@@ -10,13 +10,16 @@ namespace AIA
     public class Sell : ExecutableFunction
     {
 
+        public State UseState {get; set;}
 
-        public Sell()
+        public Sell(State use_state)
         {
             Name = "sell";
             Description = "Sell a quantity of a particular security.";
             InputParameters.Add(new FunctionInputParameter("symbol", "The symbol of the security to sell, for example 'PG' or 'MSFT' or 'WMT'"));
             InputParameters.Add(new FunctionInputParameter("quantity", "The quantity of the security to sell (i.e. shares)", "integer"));
+        
+            UseState = use_state;        
         }
 
         public override async Task<string> ExecuteAsync(JObject? arguments = null)
@@ -53,22 +56,16 @@ namespace AIA
                 return "Provided value for 'quantity' did not parse into a Int32: " + ex.Message;
             }
             
-
-            //Load portfolio
-            State state = State.Load();
             
             //Sell
             try
             {
-                await state.Portfolio.TradeAsync(symbol, quantity, TimHanewich.Investing.Simulation.TransactionType.Sell);
+                await UseState.Portfolio.TradeAsync(symbol, quantity, TimHanewich.Investing.Simulation.TransactionType.Sell);
             }
             catch (Exception ex)
             {
                 return "Error while selling " + quantity.ToString() + " of " + symbol + ": " + ex.Message;
             }
-
-            //Save portfolio
-            state.Save();
 
             //Say it was successful
             return "Sale of " + quantity.ToString() + " of " + symbol + " successful!";
