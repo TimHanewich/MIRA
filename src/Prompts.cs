@@ -1,4 +1,5 @@
 using System;
+using TheMotleyFool.Transcripts;
 using TimHanewich.Investing.Simulation;
 using TimHanewich.Investing.Simulation.Performance;
 
@@ -6,7 +7,20 @@ namespace AIA
 {
     public class Prompts
     {
-        public static string ConstructPrompt(Portfolio p, PortflioPerformance pp, JournalEntry[] journal_entries)
+        public Portfolio Portfolio {get; set;}
+        public PortflioPerformance PortfolioPerformance {get; set;}
+        public JournalEntry[] Journal {get; set;}
+        public TranscriptPreview[] TranscriptPreviews {get; set;}
+
+        public Prompts()
+        {
+            Portfolio = null!;
+            PortfolioPerformance = null!;
+            Journal = null!;
+            TranscriptPreviews = null!;
+        }
+
+        public string ConstructPrompt()
         {
 
             List<string> prompt = new List<string>();
@@ -22,10 +36,10 @@ namespace AIA
 
             //Add state
             prompt.Add("This is your current portfolio:");
-            prompt.Add(p.ToString());
+            prompt.Add(Portfolio.ToString());
             prompt.Add("");
             prompt.Add("This is your portfolio's current performance:");
-            prompt.Add(pp.ToString());
+            prompt.Add(PortfolioPerformance.ToString());
             prompt.Add("");
 
             //Log
@@ -37,13 +51,13 @@ namespace AIA
 
             //Add investment journal info
             prompt.Add("These are your investment journal entries, notes you have taken on previous days about strategy and your thoughts as time goes on:");
-            if (journal_entries.Length == 0)
+            if (Journal.Length == 0)
             {
                 prompt.Add("(no journal entries made)");
             }
             else
             {
-                foreach (JournalEntry je in journal_entries)
+                foreach (JournalEntry je in Journal)
                 {
                     prompt.Add("On " + je.EnteredAt.ToString() + ": " + je.Entry);
                 }
