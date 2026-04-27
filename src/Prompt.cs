@@ -5,14 +5,14 @@ using TimHanewich.Investing.Simulation.Performance;
 
 namespace AIA
 {
-    public class Prompts
+    public class Prompt
     {
         public Portfolio Portfolio {get; set;}
         public PortflioPerformance PortfolioPerformance {get; set;}
         public JournalEntry[] Journal {get; set;}
         public TranscriptPreview[] TranscriptPreviews {get; set;}
 
-        public Prompts()
+        public Prompt()
         {
             Portfolio = null!;
             PortfolioPerformance = null!;
