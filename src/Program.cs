@@ -5,6 +5,8 @@ using TimHanewich.AgentFramework;
 using Spectre.Console;
 using TimHanewich.Foundry;
 using Newtonsoft.Json.Linq;
+using TheMotleyFool.Transcripts;
+using Newtonsoft.Json;
 
 namespace AIA
 {
@@ -13,7 +15,7 @@ namespace AIA
         public static void Main(string[] args)
         {
             //EnterAsync().Wait();
-            WakeAsync().Wait();
+            //WakeAsync().Wait();
         }
 
         public static async Task EnterAsync()
@@ -113,13 +115,24 @@ namespace AIA
             PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
             AnsiConsole.MarkupLine("[green]done[/]");
 
+            //Gather latest earnings call transcripts available
+            AnsiConsole.Markup("Gathering latest earnings calls... ");
+            TranscriptSource ts = new TranscriptSource();
+            TranscriptPreview[] previews = await ts.GetRecentTranscriptPreviewsNextPageAsync();
+            AnsiConsole.MarkupLine("[green]" + previews.Length.ToString() + " collected.[/]");
+
             //Construct prompt
-            string prompt = Prompts.ConstructPrompt(state.Portfolio, pp, state.InvestmentJournal.ToArray());
+            Prompt prompt = new Prompt();
+            prompt.Portfolio = state.Portfolio;
+            prompt.PortfolioPerformance = pp;
+            prompt.Journal = state.InvestmentJournal.ToArray();
+            prompt.TranscriptPreviews = previews;
+            string prompt_str = prompt.ConstructPrompt();
             
             //Create the agent
             FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
             fr.ApiKey = settings.FoundryApiKey;
-            Agent AIA = new Agent(prompt);
+            Agent AIA = new Agent(prompt_str);
             AIA.FoundryResource = fr;
             AIA.Model = settings.FoundryModel;
             AIA.WebSearchEnabled = true;
