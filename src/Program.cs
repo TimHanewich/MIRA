@@ -3,6 +3,7 @@ using TimHanewich.Investing.Simulation;
 using TimHanewich.Investing.Simulation.Performance;
 using TimHanewich.AgentFramework;
 using Spectre.Console;
+using TimHanewich.Foundry;
 
 namespace AIA
 {
@@ -63,19 +64,55 @@ namespace AIA
 
                 //Wake!
                 await WakeAsync();
-
-                //Wait until the next start time is tomorrow, not today
-                while (Tools.NextWakeTime() < DateTimeOffset.Now)
-                {
-                    AnsiConsole.MarkupLine("Waiting until past trigger time.");
-                    await Task.Delay(1_000);   
-                }
             }
         }
 
         public static async Task WakeAsync()
         {
+            //Print awake
+            AnsiConsole.MarkupLine("[bold]WAKING UP AT " + DateTimeOffset.Now.ToString() + "[/]");
+
+            //Load settings
+            AnsiConsole.Markup("Loading settings... ");
+            AIASettings settings = AIASettings.Load();
+            AnsiConsole.MarkupLine("[green]loaded[/]");
+
+            //Validate settings
+            AnsiConsole.Markup("Validating settings... ");
+            if (settings.FoundryEndpoint != null && settings.FoundryApiKey != null && settings.FoundryApiKey != null)
+            {
+                AnsiConsole.MarkupLine("[green]validated[/]");
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]Settings arent filled in![/]");
+                return;
+            }
+
+            //Load state from storage
+            AnsiConsole.Markup("Loading state from storage... ");
+            State state = State.Load();
+            AnsiConsole.MarkupLine("[green]loaded[/]");
+
+            //Confirm portfolio
+            AnsiConsole.MarkupLine("Portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.");
+
+            //Gather current portfolio value and such
+            AnsiConsole.Markup("Gathering portfolio performance details... ");
+            PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
+            AnsiConsole.MarkupLine("[green]done[/]");
+
+            //Construct prompt
+            string prompt = Prompts.ConstructPrompt(state.Portfolio, pp, state.InvestmentJournal.ToArray());
             
+            //Create the agent
+            FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
+            fr.ApiKey = settings.FoundryApiKey;
+            Agent AIA = new Agent(prompt);
+            AIA.FoundryResource = fr;
+            AIA.Model = settings.FoundryModel;
+            
+
         }
     }
 }
