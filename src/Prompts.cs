@@ -32,7 +32,7 @@ namespace AIA
             prompt.Add("These are your investment journal entries, notes you have taken on previous days about strategy and your thoughts as time goes on:");
             if (journal_entries.Length == 0)
             {
-                prompt.Add("(no journal entries made");
+                prompt.Add("(no journal entries made)");
             }
             else
             {
@@ -41,6 +41,11 @@ namespace AIA
                     prompt.Add("On " + je.EnteredAt.ToString() + ": " + je.Entry);
                 }
             }
+            prompt.Add("");
+
+            //Encouragement
+            prompt.Add("Some good ideas you may want to use:");
+            prompt.Add("Use your web_search tool to perform prospective investment research online.");
             prompt.Add("");
 
             //Join and return

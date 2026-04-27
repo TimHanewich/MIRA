@@ -122,6 +122,8 @@ namespace AIA
             Agent AIA = new Agent(prompt);
             AIA.FoundryResource = fr;
             AIA.Model = settings.FoundryModel;
+            AIA.WebSearchEnabled = true;
+            AIA.InferenceRequested += OnThinking;
             AIA.ExecutableFunctionInvoked += OnFunctionInvoked;
             
             //Register tools
@@ -151,6 +153,11 @@ namespace AIA
         public static void OnFunctionInvoked(ExecutableFunction ef, JObject args)
         {
             AnsiConsole.MarkupLine("Calling '" + ef.Name + "' with " + args.ToString(Newtonsoft.Json.Formatting.None) + "... ");
+        }
+
+        public static void OnThinking()
+        {
+            AnsiConsole.MarkupLine("[gray][italic]thinking...[/][/]");
         }
 
 
