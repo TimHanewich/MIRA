@@ -4,6 +4,7 @@ using TimHanewich.Investing.Simulation.Performance;
 using TimHanewich.AgentFramework;
 using Spectre.Console;
 using TimHanewich.Foundry;
+using Newtonsoft.Json.Linq;
 
 namespace AIA
 {
@@ -89,21 +90,16 @@ namespace AIA
                 return;
             }
 
-            //Load state from storage
-            AnsiConsole.Markup("Loading state from storage... ");
-            State state = State.Load();
-            AnsiConsole.MarkupLine("[green]loaded[/]");
-
             //Confirm portfolio
-            AnsiConsole.MarkupLine("Portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.");
+            AnsiConsole.MarkupLine("Portfolio with " + State.Load().Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.");
 
             //Gather current portfolio value and such
             AnsiConsole.Markup("Gathering portfolio performance details... ");
-            PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
+            PortflioPerformance pp = await State.Load().Portfolio.CalculatePerformanceAsync();
             AnsiConsole.MarkupLine("[green]done[/]");
 
             //Construct prompt
-            string prompt = Prompts.ConstructPrompt(state.Portfolio, pp, state.InvestmentJournal.ToArray());
+            string prompt = Prompts.ConstructPrompt(State.Load().Portfolio, pp, State.Load().InvestmentJournal.ToArray());
             
             //Create the agent
             FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
@@ -111,12 +107,30 @@ namespace AIA
             Agent AIA = new Agent(prompt);
             AIA.FoundryResource = fr;
             AIA.Model = settings.FoundryModel;
+            AIA.ExecutableFunctionInvoked += OnFunctionInvoked;
             
             //Register tools
             AIA.Tools.Add(new Quote());
+            AIA.Tools.Add(new Buy());
+            AIA.Tools.Add(new Sell());
 
+            //Prompt it
+            AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
+            string response = await AIA.PromptAsync("Please proceed with your goal. Go!");
             
-
+            //Print response
+            Console.WriteLine();
+            AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
         }
+
+
+
+        //Function invoked
+        public static void OnFunctionInvoked(ExecutableFunction ef, JObject args)
+        {
+            AnsiConsole.MarkupLine("Calling '" + ef.Name + "' with " + args.ToString(Newtonsoft.Json.Formatting.None) + "... ");
+        }
+
+
     }
 }
