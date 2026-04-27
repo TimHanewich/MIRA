@@ -109,11 +109,11 @@ namespace AIA
             }
             else
             {
-                AnsiConsole.MarkupLine("[green]portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.[/]");
+                AnsiConsole.MarkupLine("[green]portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded[/]");
             }
           
             //Gather current portfolio value and such
-            AnsiConsole.Markup("Gathering portfolio performance details... ");
+            AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
             PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
             AnsiConsole.MarkupLine("[green]done[/]");
 
@@ -121,7 +121,7 @@ namespace AIA
             AnsiConsole.Markup("Gathering latest earnings calls... ");
             TranscriptSource ts = new TranscriptSource();
             TranscriptPreview[] previews = await ts.GetRecentTranscriptPreviewsNextPageAsync();
-            AnsiConsole.MarkupLine("[green]" + previews.Length.ToString() + " collected.[/]");
+            AnsiConsole.MarkupLine("[green]" + previews.Length.ToString() + " collected[/]");
 
             //Construct prompt
             Prompt prompt = new Prompt();
@@ -153,7 +153,7 @@ namespace AIA
             //Prompt it
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
             int TradeLimit = 10; //the limit number of trades this agent can make in this one turn
-            string response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.");
+            string response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.\nNOTE: I WANT YOU TO READ AT LEAST 3 EARNINGS CALL TRANSCRIPTS. THIS IS IMPORTANT.");
         
             //Print response
             Console.WriteLine();
