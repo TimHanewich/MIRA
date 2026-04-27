@@ -131,8 +131,9 @@ namespace AIA
 
             //Prompt it
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
-            string response = await AIA.PromptAsync("Please proceed with your goal. Go!");
-            
+            int TradeLimit = 10; //the limit number of trades this agent can make in this one turn
+            string response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.");
+        
             //Print response
             Console.WriteLine();
             AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
