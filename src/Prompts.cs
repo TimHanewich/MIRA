@@ -48,6 +48,12 @@ namespace AIA
             prompt.Add("Use your web_search tool to perform prospective investment research online.");
             prompt.Add("");
 
+            //Log
+            prompt.Add("After you complete all the trades you want to, it is important to log to your investment journal via the 'log_journal_entry' tool.");
+            prompt.Add("This journal will serve to remind you of the thoughts you had when you placed these trades and the broader strategy.");
+            prompt.Add("You have memory loss so expect to NOT have context of your strategy next time you see this again, so logging it to your journal is quite important.");
+            prompt.Add("");
+
             //Join and return
             string ToReturn = "";
             foreach (string line in prompt)
