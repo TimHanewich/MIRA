@@ -146,6 +146,7 @@ namespace AIA
             AIA.Tools.Add(new Sell(state));
             AIA.Tools.Add(new LogJournal(state));
             AIA.Tools.Add(new ReadJournal(state));
+            AIA.Tools.Add(new ReadEarningsCallTranscript());
 
             //Prompt it
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
