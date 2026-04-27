@@ -112,6 +112,10 @@ namespace AIA
             AIA.FoundryResource = fr;
             AIA.Model = settings.FoundryModel;
             
+            //Register tools
+            AIA.Tools.Add(new Quote());
+
+            
 
         }
     }
