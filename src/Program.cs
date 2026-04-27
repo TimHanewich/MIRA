@@ -12,7 +12,8 @@ namespace AIA
     {
         public static void Main(string[] args)
         {
-            EnterAsync().Wait();
+            //EnterAsync().Wait();
+            WakeAsync().Wait();
         }
 
         public static async Task EnterAsync()
@@ -90,16 +91,30 @@ namespace AIA
                 return;
             }
 
+            //Load state
+            AnsiConsole.Markup("Loading State from storage... ");
+            State state = State.Load();
+
+            //Check if portfolio is brand new (i.e. hasn't even been started yet)
+            AnsiConsole.Markup("Checking if portfolio is new... ");
+            if (state.Portfolio.CashTransactionLog.Count == 0) //if no cash transaction logs, that means cash never got in either. It is new!
+            {
+                AnsiConsole.Markup("it is new. Seeding with money... ");
+                state.Portfolio.EditCash(100_000.00f, CashTransactionType.Edit); //add in $100,000
+                
+                AnsiConsole.MarkupLine("[green]done[/]");
+            }
+
             //Confirm portfolio
-            AnsiConsole.MarkupLine("Portfolio with " + State.Load().Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.");
+            AnsiConsole.MarkupLine("Portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded.");
 
             //Gather current portfolio value and such
             AnsiConsole.Markup("Gathering portfolio performance details... ");
-            PortflioPerformance pp = await State.Load().Portfolio.CalculatePerformanceAsync();
+            PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
             AnsiConsole.MarkupLine("[green]done[/]");
 
             //Construct prompt
-            string prompt = Prompts.ConstructPrompt(State.Load().Portfolio, pp, State.Load().InvestmentJournal.ToArray());
+            string prompt = Prompts.ConstructPrompt(state.Portfolio, pp, state.InvestmentJournal.ToArray());
             
             //Create the agent
             FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
@@ -121,6 +136,12 @@ namespace AIA
             //Print response
             Console.WriteLine();
             AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
+            Console.WriteLine();
+
+            //Save state!
+            AnsiConsole.Markup("Saving state to storage... ");
+            state.Save();
+            AnsiConsole.MarkupLine("[green]saved![/]");
         }
 
 
