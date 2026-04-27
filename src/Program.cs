@@ -123,6 +123,7 @@ namespace AIA
             AIA.FoundryResource = fr;
             AIA.Model = settings.FoundryModel;
             AIA.WebSearchEnabled = true;
+            AIA.ReasoningEffortLevel = TimHanewich.Foundry.OpenAI.Responses.ReasoningEffortLevel.High;
             AIA.InferenceRequested += OnThinking;
             AIA.ExecutableFunctionInvoked += OnFunctionInvoked;
             

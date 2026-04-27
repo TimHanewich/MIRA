@@ -28,6 +28,13 @@ namespace AIA
             prompt.Add(pp.ToString());
             prompt.Add("");
 
+            //Log
+            prompt.Add("After you complete all the trades you want to, it is important to log to your investment journal via the 'log_journal' tool.");
+            prompt.Add("This journal will serve to remind you of the thoughts you had when you placed these trades and the broader strategy.");
+            prompt.Add("You have memory loss so expect to NOT have context of your strategy next time you see this again, so logging it to your journal is quite important.");
+            prompt.Add("If you do log to your journal, be sure to elaborate on the thought process you went through, the news you read about via the web_search tool, how your interpreted it, the action you took, what you anticipate is going to happen, why you are bullish on your strategy, what the risks are, etc. Be verbose.");
+            prompt.Add("");
+
             //Add investment journal info
             prompt.Add("These are your investment journal entries, notes you have taken on previous days about strategy and your thoughts as time goes on:");
             if (journal_entries.Length == 0)
@@ -46,12 +53,6 @@ namespace AIA
             //Encouragement
             prompt.Add("Some good ideas you may want to use:");
             prompt.Add("Use your web_search tool to perform prospective investment research online.");
-            prompt.Add("");
-
-            //Log
-            prompt.Add("After you complete all the trades you want to, it is important to log to your investment journal via the 'log_journal' tool.");
-            prompt.Add("This journal will serve to remind you of the thoughts you had when you placed these trades and the broader strategy.");
-            prompt.Add("You have memory loss so expect to NOT have context of your strategy next time you see this again, so logging it to your journal is quite important.");
             prompt.Add("");
 
             //Join and return
