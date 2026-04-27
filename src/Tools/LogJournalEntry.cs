@@ -4,13 +4,13 @@ using TimHanewich.AgentFramework;
 
 namespace AIA
 {
-    public class LogJournalEntry : ExecutableFunction
+    public class LogJournal : ExecutableFunction
     {
         State UseState {get; set;}
 
-        public LogJournalEntry(State use_state)
+        public LogJournal(State use_state)
         {
-            Name = "log_journal_entry";
+            Name = "log_journal";
             Description = "Log a new entry to your investment journal that you can later review to remember the strategy you employed or throughts you had.";
             InputParameters.Add(new TimHanewich.Foundry.OpenAI.Responses.FunctionInputParameter("entry", "The journal entry."));
 

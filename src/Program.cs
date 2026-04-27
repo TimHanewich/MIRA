@@ -130,7 +130,7 @@ namespace AIA
             AIA.Tools.Add(new Quote());
             AIA.Tools.Add(new Buy(state));
             AIA.Tools.Add(new Sell(state));
-            AIA.Tools.Add(new LogJournalEntry(state));
+            AIA.Tools.Add(new LogJournal(state));
             AIA.Tools.Add(new ReadJournal(state));
 
             //Prompt it
