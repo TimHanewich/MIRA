@@ -64,6 +64,20 @@ namespace AIA
             }
             prompt.Add("");
 
+            //Today's earnings call
+            if (TranscriptPreviews != null)
+            {
+                prompt.Add("Earnings Calls Today");
+                prompt.Add("These are the Earnings Calls that happened today. If you wish, you can read the full transcript by requesting it via the 'read_earnings_call_transcript' tool.");
+                foreach (TranscriptPreview tp in TranscriptPreviews)
+                {
+                    if (tp.PostedDate.Year == DateTime.Now.Year && tp.PostedDate.Month == DateTime.Now.Month && tp.PostedDate.Day == DateTime.Now.Day)
+                    {
+                        prompt.Add(tp.Title + " (" + tp.Url + ")");
+                    }
+                }
+            }
+
             //Encouragement
             prompt.Add("Some good ideas you may want to use:");
             prompt.Add("Use your web_search tool to perform prospective investment research online.");
