@@ -68,7 +68,7 @@ namespace AIA
             }
 
             //Say it was successful
-            return "Purchase of " + quantity.ToString() + " of " + symbol + " successful!";
+            return "Purchase of " + quantity.ToString() + " of " + symbol + " successful! Your portfolio, now: \n" + UseState.Portfolio.ToString();
         }
 
 
