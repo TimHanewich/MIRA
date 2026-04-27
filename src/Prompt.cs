@@ -82,6 +82,7 @@ namespace AIA
             //Encouragement
             prompt.Add("Some good ideas you may want to use:");
             prompt.Add("Use your web_search tool to perform prospective investment research online.");
+            prompt.Add("Read the latest Earnings Call Transcripts to identify new trends/news/information that may lead to a trading strategy.");
             prompt.Add("");
 
             //Join and return
