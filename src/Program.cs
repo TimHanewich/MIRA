@@ -74,7 +74,7 @@ namespace AIA
         public static async Task WakeAsync()
         {
             //Print awake
-            AnsiConsole.MarkupLine("[bold]WAKING UP AT " + DateTimeOffset.Now.ToString() + "[/]");
+            AnsiConsole.MarkupLine("[bold]AIA WAKING UP AT " + DateTimeOffset.Now.ToString() + "[/]");
 
             //Load settings
             AnsiConsole.Markup("Loading settings... ");
