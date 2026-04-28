@@ -156,17 +156,19 @@ namespace AIA
             AIA.Tools.Add(new ReadEarningsCallTranscript());
 
             //Prompt it
+            DateTimeOffset InferenceBegan = DateTimeOffset.Now;
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
             int TradeLimit = 10; //the limit number of trades this agent can make in this one turn
             string? response = null;
             try
             {
-                response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.\nNOTE: I WANT YOU TO READ AT LEAST 3 EARNINGS CALL TRANSCRIPTS. THIS IS IMPORTANT.");
+                response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.");
             }
             catch (Exception ex)
             {
                 AnsiConsole.MarkupLine("[red]Prompt failed! Msg: " + Markup.Escape(ex.Message) + "[/]");
             }
+            DateTimeOffset InferenceEnded = DateTimeOffset.Now;
         
             //Print response
             if (response != null)
@@ -182,7 +184,9 @@ namespace AIA
             
             //Stats
             TimeSpan AwakeFor = DateTimeOffset.UtcNow - WakeUpTime;
-            AnsiConsole.MarkupLine("Ran for [bold]" + AwakeFor.TotalMinutes.ToString("#,##0.0") + " minutes[/]: [bold]" + AIA.InputTokensConsumed.ToString("#,##0") + "[/] input tokens, [bold]" + AIA.OutputTokensConsumed.ToString("#,##0") + "[/] output tokens");
+            TimeSpan InferenceTime = InferenceEnded - InferenceBegan;
+            float TokensPerMinute = Convert.ToSingle(AIA.InputTokensConsumed + AIA.OutputTokensConsumed) / Convert.ToSingle(InferenceTime.TotalMinutes);
+            AnsiConsole.MarkupLine("Ran for [bold]" + AwakeFor.TotalMinutes.ToString("#,##0.0") + " minutes[/], inference for [bold]" + InferenceTime.TotalMinutes.ToString("#,##0.0") + " minutes[/]: [bold]" + AIA.InputTokensConsumed.ToString("#,##0") + "[/] input tokens, [bold]" + AIA.OutputTokensConsumed.ToString("#,##0") + "[/] output tokens ([bold]" + TokensPerMinute.ToString("#,##0") + "[/] TPM)");
 
             //Save state!
             AnsiConsole.Markup("Saving state to storage... ");
