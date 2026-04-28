@@ -180,6 +180,9 @@ namespace AIA
             AnsiConsole.Markup("Saving state to storage... ");
             state.Save();
             AnsiConsole.MarkupLine("[green]saved![/]");
+
+            //Shutdown
+            AnsiConsole.MarkupLine("Going to sleep. Good bye.");
         }
 
 
