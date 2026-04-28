@@ -114,8 +114,10 @@ namespace AIA
           
             //Gather current portfolio value and such
             AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
+            DateTimeOffset pp_start_at = DateTimeOffset.Now;
             PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
-            AnsiConsole.MarkupLine("[green]done[/]");
+            DateTimeOffset pp_end_at = DateTimeOffset.Now;
+            AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString() + " seconds[/]");
 
             //Gather latest earnings call transcripts available
             AnsiConsole.Markup("Gathering latest earnings calls... ");
@@ -131,7 +133,7 @@ namespace AIA
             prompt.TranscriptPreviews = previews;
             string prompt_str = prompt.ConstructPrompt();
             
-            //Create the agent
+            //Create the agentf
             FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
             fr.ApiKey = settings.FoundryApiKey;
             Agent AIA = new Agent(prompt_str);
@@ -190,7 +192,7 @@ namespace AIA
         //Function invoked
         public static void OnFunctionInvoked(ExecutableFunction ef, JObject args)
         {
-            AnsiConsole.MarkupLine("Calling '" + ef.Name + "' with " + args.ToString(Newtonsoft.Json.Formatting.None) + "... ");
+            AnsiConsole.MarkupLine("Calling '**" + ef.Name + "**' with " + args.ToString(Newtonsoft.Json.Formatting.None) + "... ");
         }
 
         public static void OnThinking()
