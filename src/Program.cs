@@ -144,6 +144,8 @@ namespace AIA
             AIA.ReasoningEffortLevel = TimHanewich.Foundry.OpenAI.Responses.ReasoningEffortLevel.High;
             AIA.InferenceRequested += OnThinking;
             AIA.ExecutableFunctionInvoked += OnFunctionInvoked;
+            AIA.WebSearchInvoked += OnWebSearchInvoked;
+            AIA.WebSearchPageOpened += OnWebpageOpened;
             
             //Register tools
             AIA.Tools.Add(new Quote());
@@ -197,6 +199,18 @@ namespace AIA
         public static void OnFunctionInvoked(ExecutableFunction ef, JObject args)
         {
             AnsiConsole.MarkupLine("Calling '[bold]" + ef.Name + "[/]' [gray]with " + args.ToString(Newtonsoft.Json.Formatting.None) + "[/]... ");
+        }
+
+        //Web search invoked
+        public static void OnWebSearchInvoked(string query)
+        {
+            AnsiConsole.MarkupLine("Web Searched '[bold]" + query + "[/]'");
+        }
+
+        //Web page opened
+        public static void OnWebpageOpened()
+        {
+            AnsiConsole.MarkupLine("Read webpage.");
         }
 
         public static void OnThinking()
