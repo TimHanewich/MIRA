@@ -74,6 +74,7 @@ namespace AIA
         public static async Task WakeAsync()
         {
             //Print awake
+            DateTimeOffset WakeUpTime = DateTimeOffset.Now;
             AnsiConsole.MarkupLine("[bold]AIA WAKING UP AT " + DateTimeOffset.Now.ToString() + "[/]");
 
             //Load settings
@@ -172,11 +173,14 @@ namespace AIA
                 AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
                 Console.WriteLine();
             }
-            
-            //Incrment token count
+
+            //Increment counters
             state.InputTokensConsumed = state.InputTokensConsumed + AIA.InputTokensConsumed;
             state.OutputTokensConsumed = state.OutputTokensConsumed + AIA.OutputTokensConsumed;
-            AnsiConsole.MarkupLine("Consumption: [bold]" + state.InputTokensConsumed.ToString("#,##0") + "[/] input tokens, [bold]" + state.OutputTokensConsumed.ToString("#,##0") + "[/] output tokens");
+            
+            //Stats
+            TimeSpan AwakeFor = DateTimeOffset.UtcNow - WakeUpTime;
+            AnsiConsole.MarkupLine("Ran for [bold]" + AwakeFor.TotalMinutes.ToString("#,##0.0") + " minutes[/]: [bold]" + AIA.InputTokensConsumed.ToString("#,##0") + "[/] input tokens, [bold]" + AIA.OutputTokensConsumed.ToString("#,##0") + "[/] output tokens");
 
             //Save state!
             AnsiConsole.Markup("Saving state to storage... ");
