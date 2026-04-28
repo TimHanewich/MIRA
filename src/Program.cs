@@ -176,7 +176,7 @@ namespace AIA
             //Incrment token count
             state.InputTokensConsumed = state.InputTokensConsumed + AIA.InputTokensConsumed;
             state.OutputTokensConsumed = state.OutputTokensConsumed + AIA.OutputTokensConsumed;
-            AnsiConsole.MarkupLine("Consumption: " + state.InputTokensConsumed.ToString() + " input tokens, " + state.OutputTokensConsumed.ToString() + " output tokens");
+            AnsiConsole.MarkupLine("Consumption: [bold]" + state.InputTokensConsumed.ToString("#,##0") + "[/] input tokens, [bold]" + state.OutputTokensConsumed.ToString("#,##0") + "[/] output tokens");
 
             //Save state!
             AnsiConsole.Markup("Saving state to storage... ");
