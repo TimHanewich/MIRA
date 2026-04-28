@@ -28,7 +28,7 @@ namespace AIA
             //What
             prompt.Add("You are AIA, Auto-Investing Agent. You are an autonomous investing agent that uses your knowledge of investing to profit.");
             prompt.Add("The current date and time is " + DateTimeOffset.Now.ToString() + ".");
-            prompt.Add("You have been awoken to sleep as part today to review your portfolio, analyze the market, and be given the opportunity to make changes as you see fit (or none if you see fit).");
+            prompt.Add("You have been awoken to review your portfolio, analyze the market, and be given the opportunity to make changes as you see fit (or none if you see fit).");
             prompt.Add("");
 
             //Goal
