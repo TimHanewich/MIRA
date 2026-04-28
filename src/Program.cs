@@ -117,7 +117,7 @@ namespace AIA
             DateTimeOffset pp_start_at = DateTimeOffset.Now;
             PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
             DateTimeOffset pp_end_at = DateTimeOffset.Now;
-            AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString() + " seconds[/]");
+            AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0") + " seconds[/]");
 
             //Gather latest earnings call transcripts available
             AnsiConsole.Markup("Gathering latest earnings calls... ");
@@ -192,7 +192,7 @@ namespace AIA
         //Function invoked
         public static void OnFunctionInvoked(ExecutableFunction ef, JObject args)
         {
-            AnsiConsole.MarkupLine("Calling '**" + ef.Name + "**' with " + args.ToString(Newtonsoft.Json.Formatting.None) + "... ");
+            AnsiConsole.MarkupLine("Calling '[bold]" + ef.Name + "[/]' [gray]with " + args.ToString(Newtonsoft.Json.Formatting.None) + "[/]... ");
         }
 
         public static void OnThinking()
