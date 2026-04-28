@@ -10,6 +10,8 @@ namespace AIA
     {
         public Portfolio Portfolio {get; set;}
         public List<JournalEntry> InvestmentJournal {get; set;}
+        public int InputTokensConsumed {get; set;}
+        public int OutputTokensConsumed {get; set;}
 
         public State()
         {

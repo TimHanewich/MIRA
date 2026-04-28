@@ -181,6 +181,11 @@ namespace AIA
             AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
             Console.WriteLine();
 
+            //Incrment token count
+            state.InputTokensConsumed = state.InputTokensConsumed + AIA.InputTokensConsumed;
+            state.OutputTokensConsumed = state.OutputTokensConsumed + AIA.OutputTokensConsumed;
+            AnsiConsole.MarkupLine("Consumption: " + state.InputTokensConsumed.ToString() + " input tokens, " + state.OutputTokensConsumed.ToString() + " output tokens");
+
             //Save state!
             AnsiConsole.Markup("Saving state to storage... ");
             state.Save();
