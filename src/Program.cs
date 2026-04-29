@@ -64,13 +64,14 @@ namespace AIA
                 AnsiConsole.MarkupLine("[underline]Profitability[/]");
                 if (pp.Profit > 0.0f)
                 {
-                   AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + pp.Profit.ToString("#,##0") + "[/][/]"); 
+                   AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + Math.Abs(pp.Profit).ToString("#,##0") + "[/][/]"); 
                 }
                 else
                 {
-                    AnsiConsole.MarkupLine("Net Loss: [red][bold]$" + pp.Profit.ToString("#,##0") + "[/][/]"); 
+                    AnsiConsole.MarkupLine("Net Loss: [red][bold]$" + Math.Abs(pp.Profit).ToString("#,##0") + "[/][/]"); 
                 }
                 AnsiConsole.MarkupLine("Trading Expenses (commission) paid: $" + pp.ExpensesPaid.ToString("#,##0"));
+                Console.WriteLine();
 
                 //Print holdings and performances
                 AnsiConsole.MarkupLine("[underline]Holdings[/]");
@@ -90,7 +91,7 @@ namespace AIA
                     }
 
                     //Print
-                    AnsiConsole.MarkupLine("[" + color + "]+" + hp.PercentGain.ToString("#0.0%") + "[/], [" + color + "]$+" + hp.Gain.ToString("#,##0") + "[/]");
+                    AnsiConsole.MarkupLine("[" + color + "]" + hp.PercentGain.ToString("#0.0%") + "[/], [" + color + "]$" + hp.Gain.ToString("#,##0") + "[/]");
                 }
                 
             }
