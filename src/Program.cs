@@ -14,8 +14,57 @@ namespace AIA
     {
         public static void Main(string[] args)
         {
-            //EnterAsync().Wait();
-            WakeAsync().Wait();
+            EntryPoint().Wait();
+        }
+
+        public static async Task EntryPoint()
+        {
+            AnsiConsole.MarkupLine("[bold][underline]AIA: Auto Invest Agent[/][/]");
+            AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
+            
+            //Ask what to do
+            Console.WriteLine();
+            SelectionPrompt<string> SelectToDo = new SelectionPrompt<string>();
+            SelectToDo.AddChoice("Run AIA (timer)");
+            SelectToDo.AddChoice("Wake up right now");
+            SelectToDo.AddChoice("Review Portfolio");
+            string selection = AnsiConsole.Prompt(SelectToDo);
+
+            //Handle what to do
+            if (selection == "Run AIA (timer)")
+            {
+                await EnterAsync();
+            }
+            else if (selection == "Wake up right now.")
+            {
+                await WakeAsync();
+            }
+            else if (selection   == "Review Portfolio")
+            {
+                //Load state
+                AnsiConsole.Markup("Loading State from storage... ");
+                State state = State.Load();
+                AnsiConsole.MarkupLine("[green]loaded[/]");
+
+                //Gather current portfolio value and such
+                AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
+                DateTimeOffset pp_start_at = DateTimeOffset.Now;
+                PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
+                DateTimeOffset pp_end_at = DateTimeOffset.Now;
+                AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0") + " seconds[/]");
+
+                //Print
+                AnsiConsole.Markup("[blue][underline][bold]PORTFOLIO[/][/][/]");
+                Console.WriteLine(state.Portfolio.ToString());
+                Console.WriteLine();
+                AnsiConsole.Markup("[blue][underline][bold]PERFORMANCE[/][/][/]");
+                Console.WriteLine(pp.ToString());
+                Console.WriteLine();
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]That command isn't handled yet.[/]");
+            }
         }
 
         public static async Task EnterAsync()
