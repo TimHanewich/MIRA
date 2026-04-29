@@ -52,12 +52,13 @@ namespace AIA
                 PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
                 DateTimeOffset pp_end_at = DateTimeOffset.Now;
                 AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0") + " seconds[/]");
+                Console.WriteLine();
 
                 //Print
-                AnsiConsole.Markup("[blue][underline][bold]PORTFOLIO[/][/][/]");
+                AnsiConsole.MarkupLine("[blue][underline][bold]PORTFOLIO[/][/][/]");
                 Console.WriteLine(state.Portfolio.ToString());
                 Console.WriteLine();
-                AnsiConsole.Markup("[blue][underline][bold]PERFORMANCE[/][/][/]");
+                AnsiConsole.MarkupLine("[blue][underline][bold]PERFORMANCE[/][/][/]");
                 Console.WriteLine(pp.ToString());
                 Console.WriteLine();
             }
