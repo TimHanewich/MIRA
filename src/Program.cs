@@ -73,9 +73,12 @@ namespace AIA
                 AnsiConsole.MarkupLine("Trading Expenses (commission) paid: $" + pp.ExpensesPaid.ToString("#,##0"));
                 Console.WriteLine();
 
+                //Sort holding performances by gain (return) from most to least
+                HoldingPerformance[] sorted_hps = pp.HoldingPerformances.OrderByDescending(hp => hp.Gain).ToArray();
+
                 //Print holdings and performances
                 AnsiConsole.MarkupLine("[underline]Holdings[/]");
-                foreach (HoldingPerformance hp in pp.HoldingPerformances)
+                foreach (HoldingPerformance hp in sorted_hps)
                 {
                     AnsiConsole.Markup("[bold]" + hp.Holding.Symbol + "[/]: " + "[blue]" + hp.Holding.Quantity.ToString("#,##0") + " shares[/], ");
                     
