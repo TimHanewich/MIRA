@@ -35,7 +35,7 @@ namespace AIA
             {
                 await EnterAsync();
             }
-            else if (selection == "Wake up right now.")
+            else if (selection == "Wake up right now")
             {
                 await WakeAsync();
             }
