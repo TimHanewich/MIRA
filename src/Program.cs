@@ -55,12 +55,44 @@ namespace AIA
                 Console.WriteLine();
 
                 //Print
-                AnsiConsole.MarkupLine("[blue][underline][bold]PORTFOLIO[/][/][/]");
-                Console.WriteLine(state.Portfolio.ToString());
+                AnsiConsole.MarkupLine("[bold][underline][blue]AIA Managed Portfolio[/][/][/]");
+                AnsiConsole.MarkupLine("Cash Balance: $" + state.Portfolio.Cash.ToString("#,##0.00"));
+                AnsiConsole.MarkupLine("Trades made: " + state.Portfolio.HoldingTransactionLog.Count.ToString("#,##0"));
                 Console.WriteLine();
-                AnsiConsole.MarkupLine("[blue][underline][bold]PERFORMANCE[/][/][/]");
-                Console.WriteLine(pp.ToString());
-                Console.WriteLine();
+
+                //Print total profitability
+                AnsiConsole.MarkupLine("[underline]Profitability[/]");
+                if (pp.Profit > 0.0f)
+                {
+                   AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + pp.Profit.ToString("#,##0") + "[/][/]"); 
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("Net Loss: [red][bold]$" + pp.Profit.ToString("#,##0") + "[/][/]"); 
+                }
+                AnsiConsole.MarkupLine("Trading Expenses (commission) paid: $" + pp.ExpensesPaid.ToString("#,##0"));
+
+                //Print holdings and performances
+                AnsiConsole.MarkupLine("[underline]Holdings[/]");
+                foreach (HoldingPerformance hp in pp.HoldingPerformances)
+                {
+                    AnsiConsole.Markup("[bold]" + hp.Holding.Symbol + "[/]: " + "[blue]" + hp.Holding.Quantity.ToString("#,##0") + " shares[/], ");
+                    
+                    //Determine color
+                    string color = "";
+                    if (hp.Gain > 0.0f)
+                    {
+                        color = "green";
+                    }
+                    else
+                    {
+                        color = "red";
+                    }
+
+                    //Print
+                    AnsiConsole.MarkupLine("[" + color + "]+" + hp.PercentGain.ToString("#0.0%") + "[/], [" + color + "]$+" + hp.Gain.ToString("#,##0") + "[/]");
+                }
+                
             }
             else
             {
