@@ -92,6 +92,7 @@ namespace AIA
             prompt.Add("Some good ideas you may want to use:");
             prompt.Add("Use your web_search tool to perform prospective investment research online.");
             prompt.Add("Read the latest Earnings Call Transcripts to identify new trends/news/information that may lead to a trading strategy. You can use the `read_earnings_call_transcript` tool to do so, but must provide it with a URL to the transcript hosted at fool.com. Use your `web_search` tool to find these transcripts as appropriate.");
+            prompt.Add("For making longer-term, value-based investments, it is a good idea to actually review the company's historical financial data. Use the `search_financial_data` and `get_financial_data` tools for querying data from the company's previously reported 10-K's and 10-Q's.");
             prompt.Add("");
 
             //Must make decisions all right now
