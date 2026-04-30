@@ -4,33 +4,22 @@ using SecuritiesExchangeCommission.Edgar;
 using SecuritiesExchangeCommission.Edgar.Data;
 using System.Collections.Generic;
 
-namespace AIDA.Finance
+namespace AIA
 {
     //Manages API calls for data to the SEC API so we aren't constantly calling to it (it is a lot of data to pull down each time)
     public class SECBandwidthManager
     {
-        //SHARED INSTANCE
-        private static SECBandwidthManager _Instance = new SECBandwidthManager();
-        public static SECBandwidthManager Instance
-        {
-            get
-            {
-                return _Instance;
-            }
-        }
-
-
-        private static List<CompanyFactsQuery> AllCompanyFactsQueries;
+        private List<CompanyFactsQuery> CachedCompanyFactsQueries;
 
         public SECBandwidthManager()
         {
-            AllCompanyFactsQueries = new List<CompanyFactsQuery>();
+            CachedCompanyFactsQueries = new List<CompanyFactsQuery>();
         }
 
-        public static async Task<CompanyFactsQuery> CompanyFactsQueryAsync(int cik)
+        public async Task<CompanyFactsQuery> CompanyFactsQueryAsync(int cik)
         {
             //Search if we have one
-            foreach (CompanyFactsQuery existing_cfq in AllCompanyFactsQueries)
+            foreach (CompanyFactsQuery existing_cfq in CachedCompanyFactsQueries)
             {
                 if (existing_cfq.CIK == cik)
                 {
@@ -40,10 +29,8 @@ namespace AIDA.Finance
 
             //We must not have one, so get it
             CompanyFactsQuery cfq = await CompanyFactsQuery.QueryAsync(cik);
-            AllCompanyFactsQueries.Add(cfq);
+            CachedCompanyFactsQueries.Add(cfq);
             return cfq;
         }
-
-
     }
 }
