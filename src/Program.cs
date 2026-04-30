@@ -7,13 +7,15 @@ using TimHanewich.Foundry;
 using Newtonsoft.Json.Linq;
 using TheMotleyFool.Transcripts;
 using Newtonsoft.Json;
+using SecuritiesExchangeCommission.Edgar.Data;
+using SecuritiesExchangeCommission.Edgar;
 
 namespace AIA
 {
     public class Program
     {
         public static void Main(string[] args)
-        {
+        {            
             EntryPoint().Wait();
         }
 
@@ -180,6 +182,14 @@ namespace AIA
                 return;
             }
 
+            //Set up SEC EDGAR
+            AnsiConsole.Markup("Setting up SEC EDGAR infa... ");
+            IdentificationManager.Instance.AppName = "AIA";
+            IdentificationManager.Instance.AppVersion = "1.0";
+            IdentificationManager.Instance.Email = "surferdude101@gmail.com";
+            SECBandwidthManager bwm = new SECBandwidthManager();
+            AnsiConsole.MarkupLine("[green]done[/]");
+
             //Load state
             AnsiConsole.Markup("Loading State from storage... ");
             State state = State.Load();
@@ -240,6 +250,9 @@ namespace AIA
             AIA.Tools.Add(new LogJournal(state));
             AIA.Tools.Add(new ReadJournal(state));
             AIA.Tools.Add(new ReadEarningsCallTranscript());
+            AIA.Tools.Add(new GetCIK());                            //Get the SEC CIK for a company from the stock symbol
+            AIA.Tools.Add(new SearchFinancialData(bwm));            //Search available financial facts the company has previously reported
+            AIA.Tools.Add(new GetFinancialData(bwm));               //Get one of those financial facts
 
             //Prompt it
             DateTimeOffset InferenceBegan = DateTimeOffset.Now;
