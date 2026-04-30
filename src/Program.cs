@@ -161,6 +161,8 @@ namespace AIA
 
         public static async Task WakeAsync()
         {
+            WakeUp:
+
             //Print awake
             DateTimeOffset WakeUpTime = DateTimeOffset.Now;
             AnsiConsole.MarkupLine("[bold]AIA WAKING UP AT " + DateTimeOffset.Now.ToString() + "[/]");
@@ -275,6 +277,18 @@ namespace AIA
                 Console.WriteLine();
                 AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
                 Console.WriteLine();
+
+                response = "I'm sorry, but I cannot assist with that request.";
+
+                //If it was blocked (response was "I'm sorry, but I cannot assist with that request"), 
+                //that means Foundry guardrails blocked it. It is likely something it "saw" during the web searches (or got into the EC transcripts)
+                // causd it to be blocked
+                if (response.ToLower().Contains("i cannot assist with that request"))
+                {
+                    AnsiConsole.MarkupLine("[orange]Block Detected. Will throw away this session and try again in 3 minutes.[/]");
+                    await Task.Delay(1_000 * 60 * 3); //3 mins
+                    goto WakeUp;
+                }
             }
 
             //Increment counters
