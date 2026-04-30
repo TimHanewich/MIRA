@@ -81,6 +81,13 @@ namespace AIA
                 prompt.Add("");
             }
 
+            //SEC EDGAR info
+            prompt.Add("You also have the ability to access financial filing data from the SEC's EDGAR database. A common flow will look like this:");
+            prompt.Add("1. Use your `get_cik` tool to find the CIK for any publicly traded company from its ticker symbol. Use this if you do not know the CIK already.");
+            prompt.Add("2. Use your `search_financial_data` tool to search through the available financial data points that company has previously reported and you can access.");
+            prompt.Add("3. Use your `get_financial_data` to access data for one of those returned facts, showing you the historical data points for that fact for that company.");
+            prompt.Add("");
+
             //Encouragement: ways to go about
             prompt.Add("Some good ideas you may want to use:");
             prompt.Add("Use your web_search tool to perform prospective investment research online.");
