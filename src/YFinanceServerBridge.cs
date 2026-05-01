@@ -55,7 +55,11 @@ namespace AIA.YFinanceServer
         {
             string joined = string.Join(",", symbols);
             HttpResponseMessage response = await _client.GetAsync(_endpoint + "/quote/" + joined);
-            response.EnsureSuccessStatusCode();
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                string error = await response.Content.ReadAsStringAsync();
+                throw new Exception("Quote request for '" + joined + "' failed with status " + (int)response.StatusCode + ": " + error);
+            }
             string body = await response.Content.ReadAsStringAsync();
             JObject jo = JObject.Parse(body);
 
