@@ -2,4 +2,12 @@
 - In `TimHanewich.Investing` package, 
     - change TransactedAt from Unix timestamp to DateTimeOffset (`Transaction` class)
     - Fix `PortfolioPerformance` mispelling
-    - Add in individual stock performance and summary into PortfolioPerformance
+    - `TradeAsync` function you can pass a current security price in and it won't call to YF
+    - `Holding Performance` should contain:
+        - Today Price
+        - Today Dollar Gain
+        - Today Percent Gain
+        - Total Cost Basis
+        - Total Current Value
+        - Unrealized Dollar Change
+        - Unrealized percent change
