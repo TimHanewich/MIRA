@@ -297,8 +297,6 @@ namespace AIA
                 AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
                 Console.WriteLine();
 
-                response = "I'm sorry, but I cannot assist with that request.";
-
                 //If it was blocked (response was "I'm sorry, but I cannot assist with that request"), 
                 //that means Foundry guardrails blocked it. It is likely something it "saw" during the web searches (or got into the EC transcripts)
                 // causd it to be blocked
