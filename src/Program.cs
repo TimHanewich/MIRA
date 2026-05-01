@@ -227,9 +227,12 @@ namespace AIA
                 }
 
                 //If not collected wait
-                AnsiConsole.Markup("[red]Was unable to collect PortfolioPerformance. Waiting 3 minutes and then will try again. [/]");
-                await Task.Delay(new TimeSpan(0, 3, 0)); //3 mins
-                AnsiConsole.MarkupLine("ready.");
+                if (pp == null)
+                {
+                    AnsiConsole.Markup("[red]Was unable to collect PortfolioPerformance. Waiting 3 minutes and then will try again. [/]");
+                    await Task.Delay(new TimeSpan(0, 3, 0)); //3 mins
+                    AnsiConsole.MarkupLine("ready.");
+                }
             }
             DateTimeOffset pp_end_at = DateTimeOffset.Now;
             AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0") + " seconds[/]");
