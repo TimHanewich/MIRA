@@ -263,7 +263,7 @@ namespace AIA
                 }
             }
             DateTimeOffset pp_end_at = DateTimeOffset.Now;
-            AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0") + " seconds[/]");
+            AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0.0") + " seconds[/]");
 
             //Gather latest earnings call transcripts available
             AnsiConsole.Markup("Gathering latest earnings calls... ");
