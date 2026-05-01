@@ -272,7 +272,7 @@ namespace AIA
             DateTimeOffset InferenceEnded = DateTimeOffset.Now;
         
             //Print response
-            if (response != null)
+            if (response != null) //SOME response came through
             {
                 Console.WriteLine();
                 AnsiConsole.MarkupLine("[blue]" + Markup.Escape(response) + "[/]");
@@ -285,10 +285,16 @@ namespace AIA
                 // causd it to be blocked
                 if (response.ToLower().Contains("i cannot assist with that request"))
                 {
-                    AnsiConsole.MarkupLine("[orange]Block Detected. Will throw away this session and try again in 3 minutes.[/]");
+                    AnsiConsole.MarkupLine("[DarkOrange]Block Detected. Will throw away this session and try again in 3 minutes.[/]");
                     await Task.Delay(1_000 * 60 * 3); //3 mins
                     goto WakeUp;
                 }
+            }
+            else // no response came through... it failed (catch bracket)
+            {
+                AnsiConsole.MarkupLine("[red]Failure while prompting. Unsuccessful run. Will throw away this session and try again in 10 minutes.[/]");
+                await Task.Delay(1_000 * 60 * 10); //10 mins
+                goto WakeUp;
             }
 
             //Increment counters
