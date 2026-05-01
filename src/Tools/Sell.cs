@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TimHanewich.AgentFramework;
 using TimHanewich.Foundry.OpenAI.Responses;
-using Yahoo.Finance;
+using AIA.YFinanceServer;
 
 namespace AIA
 {
@@ -60,7 +60,9 @@ namespace AIA
             //Sell
             try
             {
-                await UseState.Portfolio.TradeAsync(symbol, quantity, TimHanewich.Investing.Simulation.TransactionType.Sell);
+                YFinanceServerBridge yfsb = new YFinanceServerBridge();
+                AIA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
+                UseState.Portfolio.Sell(symbol, quantity, quote.Price);
             }
             catch (Exception ex)
             {
