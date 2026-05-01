@@ -65,6 +65,8 @@ namespace AIA
 
                 //Print total profitability
                 AnsiConsole.MarkupLine("[underline]Profitability[/]");
+                AnsiConsole.MarkupLine("Cash Invested: [bold]$" + pd.CashInjected.ToString("#,##0") + "[/]");
+                AnsiConsole.MarkupLine("Total Portfolio Value (inc. cash): [bold]$" + (pd.HoldingsValue + pd.CashBalance).ToString("#,##0") + "[/]");
                 if (pd.TotalGainLoss > 0.0f)
                 {
                    AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + Math.Abs(pd.TotalGainLoss).ToString("#,##0") + "[/][/]"); 
