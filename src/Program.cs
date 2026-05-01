@@ -78,6 +78,35 @@ namespace AIA
                 //Sort holding performances by gain (return) from most to least
                 PortfolioHolding[] sorted_phs = pd.Holdings.OrderByDescending(hp => hp.UnrealizedGainLoss).ToArray();
 
+                //Create holdings table
+                Table t = new Table();
+                t.AddColumn("Symbol");
+                t.AddColumn("Day Change");
+                t.AddColumn("Price");
+                t.AddColumn("Quantity");
+                t.AddColumn("Value");
+                t.AddColumn("Allocation");
+                t.AddColumn("Cost Basis");                
+                t.AddColumn("Gain/Loss");
+                t.AddColumn("Gain/Loss %");
+
+                foreach (PortfolioHolding ph in pd.Holdings)
+                {
+                    string symbol = ph.Symbol;
+                    string dayChange = ph.DayChangePercent.ToString("#0.0") + "%";
+                    string price = "$" + ph.CurrentPrice.ToString("#,##0.00");
+                    string quantity = ph.QuantityOwned.ToString("#,##0");
+                    string value = "$" + ph.PositionValue.ToString("#,##0");
+                    string allocation = "0";
+                    string costBasis = "$" + ph.TotalCostBasis.ToString("#,##0");
+                    string gainLoss = ph.UnrealizedGainLoss.ToString("#,##0");
+                    string gainLossPercent = ph.UnrealizedGainLossPercent.ToString("#0.0%") + "%";
+
+                    t.AddRow(symbol, dayChange, price, quantity, value, allocation, costBasis, gainLoss, gainLossPercent);
+                }
+
+                
+
                 //Print holdings and performances
                 AnsiConsole.MarkupLine("[underline]Holdings[/]");
                 foreach (PortfolioHolding ph in sorted_phs)
