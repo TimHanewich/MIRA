@@ -61,7 +61,7 @@ namespace AIA.Portfolio
                     ph.CurrentPrice = ThisQuote.Price;
                     ph.DayChangePercent = ThisQuote.ChangePercent;
                     ph.QuantityOwned = h.Quantity;
-                    ph.TotalCostBasis = h.CostBasis * h.Quantity; //h.CostBasis I believe stores it on a per-share basis (not total)
+                    ph.TotalCostBasis = h.CostBasisTotalPosition;
                     phs.Add(ph);
                 }
             }
