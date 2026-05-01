@@ -306,7 +306,6 @@ namespace AIA
             //Prompt it
             DateTimeOffset InferenceBegan = DateTimeOffset.Now;
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
-            int TradeLimit = 10; //the limit number of trades this agent can make in this one turn
             string? response = null;
             try
             {
