@@ -176,7 +176,7 @@ namespace AIA
             }
         }
 
-        public static async Task WakeAsync()
+        public static async Task WakeAsync(string? custom_instructions = null)
         {
             WakeUp:
 
@@ -310,7 +310,16 @@ namespace AIA
             string? response = null;
             try
             {
-                response = await AIA.PromptAsync("Please proceed with your goal. You can make up to " + TradeLimit.ToString() + " trades. Go! And Good luck.");
+                string user_prompt;
+                if (custom_instructions != null)
+                {
+                    user_prompt = "Please proceed with you assigned duties with these additional instructions in mind: " + custom_instructions;
+                }
+                else
+                {
+                    user_prompt = "Please proceed with your assigned duties.";
+                }
+                response = await AIA.PromptAsync(user_prompt);
             }
             catch (Exception ex)
             {
