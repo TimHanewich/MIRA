@@ -34,6 +34,12 @@ namespace AIA
                 next3Pm = next3Pm.AddDays(1);
             }
 
+            // 5. Skip weekends (Saturday -> Monday, Sunday -> Monday)
+            while (next3Pm.DayOfWeek == DayOfWeek.Saturday || next3Pm.DayOfWeek == DayOfWeek.Sunday)
+            {
+                next3Pm = next3Pm.AddDays(1);
+            }
+
             // 5. Convert back to DateTimeOffset to get the correct UTC offset for that date
             // This handles the switch between EST and EDT automatically
             DateTimeOffset result = TimeZoneInfo.ConvertTime(new DateTimeOffset(next3Pm), easternZone);
