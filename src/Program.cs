@@ -108,11 +108,6 @@ namespace AIA
 
         public static async Task EnterAsync()
         {
-            //Welcome message
-            AnsiConsole.MarkupLine("[bold][blue]WELCOME TO AIA:[/][/]");
-            AnsiConsole.MarkupLine("[bold][blue]Auto-Invest Agent[/][/]");
-            AnsiConsole.MarkupLine("[italic]" + "github.com/TimHanewich" + "[/]");
-            Console.WriteLine();
 
             //Validate settings
             AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
@@ -127,6 +122,17 @@ namespace AIA
             else
             {
                 AnsiConsole.MarkupLine("[red]Settings not populated! Please update settings at " + AIASettings.SavePath + ".[/]");
+                return;
+            }
+
+            //Validate YFinanceServerBridge
+            YFinanceServerBridge yfsb = new YFinanceServerBridge();
+            AnsiConsole.Markup("Confirming YFinance-Server online... ");
+            bool online = await yfsb.AliveAsync();
+            AnsiConsole.MarkupLine("[green]complete[/]");
+            if (online == false)
+            {
+                AnsiConsole.MarkupLine("[red]yfinance-server is not online. This is needed for stock quotes. Please start this and try again.[/]");
                 return;
             }
 
@@ -184,7 +190,7 @@ namespace AIA
                 return;
             }
 
-            //Setup YFinanceServerBridge
+            //Validate YFinanceServerBridge
             YFinanceServerBridge yfsb = new YFinanceServerBridge();
             AnsiConsole.Markup("Confirming YFinance-Server online... ");
             bool online = await yfsb.AliveAsync();
