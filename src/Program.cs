@@ -89,7 +89,6 @@ namespace AIA
                 t.AddColumn("Cost Basis");                
                 t.AddColumn("Gain/Loss");
                 t.AddColumn("Gain/Loss %");
-
                 foreach (PortfolioHolding ph in pd.Holdings)
                 {
                     string symbol = ph.Symbol;
@@ -105,28 +104,9 @@ namespace AIA
                     t.AddRow(symbol, dayChange, price, quantity, value, allocation, costBasis, gainLoss, gainLossPercent);
                 }
 
-                
-
-                //Print holdings and performances
+                //Print table
                 AnsiConsole.MarkupLine("[underline]Holdings[/]");
-                foreach (PortfolioHolding ph in sorted_phs)
-                {
-                    AnsiConsole.Markup("[bold]" + ph.Symbol + "[/]: " + "[blue]" + ph.QuantityOwned.ToString("#,##0") + " shares[/], ");
-                    
-                    //Determine color
-                    string color = "";
-                    if (ph.UnrealizedGainLoss > 0.0f)
-                    {
-                        color = "green";
-                    }
-                    else
-                    {
-                        color = "red";
-                    }
-
-                    //Print
-                    AnsiConsole.MarkupLine("[" + color + "]" + ph.UnrealizedGainLossPercent.ToString("#0.0") + "%[/], [" + color + "]$" + ph.UnrealizedGainLoss.ToString("#,##0") + "[/]");
-                }
+                AnsiConsole.Write(t);
                 
             }
             else
