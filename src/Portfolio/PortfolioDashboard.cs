@@ -8,6 +8,8 @@ namespace AIA.Portfolio
     public class PortfolioDashboard
     {
         public PortfolioHolding[] Holdings {get; set;}
+        public float CashBalance {get; set;}            //Current cash balance
+        public float CashInjected {get; set;}           //How much cash was started with
         
         public float ToalGainLoss
         {
@@ -29,6 +31,17 @@ namespace AIA.Portfolio
 
         public async static Task<PortfolioDashboard> ConstructAsync(TimHanewich.Investing.Simulation.Portfolio portfolio)
         {
+            PortfolioDashboard ToReturn = new PortfolioDashboard();
+
+            //Sum how much cash was injected (deposited)
+            foreach (CashTransaction ct in portfolio.CashTransactionLog)
+            {
+                if (ct.ChangeType == CashTransactionType.Edit)
+                {
+                    ToReturn.CashInjected = ToReturn.CashInjected + ct.CashChange;
+                }
+            }
+
             //Get list of all stocks held
             List<string> AllHoldingSymbols = new List<string>();
             foreach (Holding h in portfolio.Holdings())
@@ -67,9 +80,32 @@ namespace AIA.Portfolio
             }
 
             //Return
-            PortfolioDashboard ToReturn = new PortfolioDashboard();
             ToReturn.Holdings = phs.ToArray();
             return ToReturn;
+        }
+
+        public float HoldingsValue
+        {
+            get
+            {
+                float ToReturn = 0.0f;
+                foreach (PortfolioHolding ph in Holdings)
+                {
+                    ToReturn = ToReturn + ph.PositionValue;
+                }
+                return ToReturn;
+            }
+        }
+        
+        //Net gain/loss
+        public float TotalGainLoss
+        {
+            get
+            {
+                //Math is:
+                //Sum of value of holdings + cash balance - cash injected
+                return HoldingsValue + CashBalance - CashInjected;
+            }
         }
 
         public string Print()
