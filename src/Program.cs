@@ -83,23 +83,30 @@ namespace AIA
                 t.AddColumn("Symbol");
                 t.AddColumn("Day Change");
                 t.AddColumn("Price");
-                t.AddColumn("Quantity");
+                t.AddColumn("Shares");
                 t.AddColumn("Value");
                 t.AddColumn("Allocation");
                 t.AddColumn("Cost Basis");                
-                t.AddColumn("Gain/Loss");
-                t.AddColumn("Gain/Loss %");
-                foreach (PortfolioHolding ph in pd.Holdings)
+                t.AddColumn("Unr. Gain/Loss");
+                t.AddColumn("Unr. Gain/Loss %");
+
+                foreach (PortfolioHolding ph in sorted_phs)
                 {
-                    string symbol = ph.Symbol;
-                    string dayChange = ph.DayChangePercent.ToString("#0.0") + "%";
+                    //Calculate allocation %
+                    float allocationP = (ph.PositionValue / pd.HoldingsValue)*100;
+
+                    string color = ph.UnrealizedGainLoss >= 0 ? "green" : "red";
+                    string dayColor = ph.DayChangePercent >= 0 ? "green" : "red";
+
+                    string symbol = "[bold]" + ph.Symbol + "[/]";
+                    string dayChange = "[" + dayColor + "]" + ph.DayChangePercent.ToString("#0.0") + "%" + "[/]";
                     string price = "$" + ph.CurrentPrice.ToString("#,##0.00");
                     string quantity = ph.QuantityOwned.ToString("#,##0");
                     string value = "$" + ph.PositionValue.ToString("#,##0");
-                    string allocation = "0";
+                    string allocation = allocationP.ToString("#0.0") + "%";
                     string costBasis = "$" + ph.TotalCostBasis.ToString("#,##0");
-                    string gainLoss = ph.UnrealizedGainLoss.ToString("#,##0");
-                    string gainLossPercent = ph.UnrealizedGainLossPercent.ToString("#0.0%") + "%";
+                    string gainLoss = "[" + color + "]" + "$" + ph.UnrealizedGainLoss.ToString("#,##0") + "[/]";
+                    string gainLossPercent = "[" + color + "]" + ph.UnrealizedGainLossPercent.ToString("#0.0") + "%" + "[/]";
 
                     t.AddRow(symbol, dayChange, price, quantity, value, allocation, costBasis, gainLoss, gainLossPercent);
                 }
