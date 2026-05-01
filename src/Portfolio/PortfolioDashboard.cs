@@ -72,6 +72,18 @@ namespace AIA.Portfolio
             return ToReturn;
         }
 
+        public string Print()
+        {
+            string ToReturn = "";
+            ToReturn = "|Symbol|Current Price|Day Change Percent|Position Value|Position Cost Basis|Unrealized Gain/Loss|Unrealized Gain/Loss %|";
+            ToReturn = ToReturn + "\n" + "|-|-|-|-|-|-|-|";
+            foreach (PortfolioHolding ph in Holdings)
+            {
+                ToReturn = ToReturn + "\n" + "|" + ph.Symbol + "|$" + ph.CurrentPrice.ToString("#,##0.00") + "|" + ph.DayChangePercent.ToString("#,##0.0") + "%|$" + ph.PositionValue.ToString("#,##0.00") + "|$" + ph.TotalCostBasis.ToString("#,##0.00") + "|$" + ph.UnrealizedGainLoss.ToString("#,##0.00") + "|" + ph.UnrealizedGainLossPercent.ToString("#,##0.0") + "%|";
+            }
+            return ToReturn;
+        }
+    
     }
 
     public class PortfolioHolding
@@ -105,7 +117,7 @@ namespace AIA.Portfolio
         {
             get
             {
-                return UnrealizedGainLoss / TotalCostBasis;
+                return (UnrealizedGainLoss / TotalCostBasis)*100;
             }
         }
 
