@@ -1,6 +1,5 @@
 using System;
 using TimHanewich.Investing.Simulation;
-using TimHanewich.Investing.Simulation.Performance;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
