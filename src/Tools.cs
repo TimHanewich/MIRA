@@ -1,4 +1,5 @@
 using System;
+using Spectre.Console;
 
 namespace AIA
 {
@@ -45,6 +46,21 @@ namespace AIA
             DateTimeOffset result = TimeZoneInfo.ConvertTime(new DateTimeOffset(next3Pm), easternZone);
 
             return result;
+        }
+
+        public static string? AskForCustomInstructions()
+        {
+            TextPrompt<string> question = new TextPrompt<string>("Custom Instructions for AIA: ");
+            question.AllowEmpty = true;
+            string CustomInstructions = AnsiConsole.Prompt(question);
+            if (CustomInstructions == "")
+            {
+                return null;
+            }
+            else
+            {
+                return CustomInstructions;
+            }
         }
 
     }

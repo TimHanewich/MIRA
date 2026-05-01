@@ -40,9 +40,9 @@ namespace AIA
             }
             else if (selection == "Wake up right now")
             {
-                await WakeAsync();
+                await WakeAsync(Tools.AskForCustomInstructions());
             }
-            else if (selection   == "Review Portfolio")
+            else if (selection == "Review Portfolio")
             {
                 //Load state
                 AnsiConsole.Markup("Loading State from storage... ");
