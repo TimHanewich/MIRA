@@ -53,7 +53,7 @@ def quote(symbol:str):
             print("Extracting '" + symb.upper() + "'")
             ThisSymbData = data[symb.upper()]
             if ThisSymbData.isna().all().all(): # if it is all NaN data (not valid symbol probably)
-                print("No data available.")
+                print("\tNo data available.")
                 ToReturn[symb.upper()] = "No data available."
             else:
 
