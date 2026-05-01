@@ -10,19 +10,6 @@ namespace AIA.Portfolio
         public PortfolioHolding[] Holdings {get; set;}
         public float CashBalance {get; set;}            //Current cash balance
         public float CashInjected {get; set;}           //How much cash was started with
-        
-        public float ToalGainLoss
-        {
-            get
-            {
-                float ToReturn = 0.0f;
-                foreach (PortfolioHolding ph in Holdings)
-                {
-                    ToReturn = ToReturn + ph.UnrealizedGainLoss;
-                }
-                return ToReturn;
-            }
-        }
 
         public PortfolioDashboard()
         {
