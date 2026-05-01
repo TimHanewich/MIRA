@@ -7,7 +7,7 @@ namespace AIA
 {
     public class Prompt
     {
-        public Portfolio Portfolio {get; set;}
+        public TimHanewich.Investing.Simulation.Portfolio Portfolio {get; set;}
         public PortflioPerformance PortfolioPerformance {get; set;}
         public JournalEntry[] Journal {get; set;}
         public TranscriptPreview[] TranscriptPreviews {get; set;}

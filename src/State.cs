@@ -8,14 +8,14 @@ namespace AIA
 {
     public class State
     {
-        public Portfolio Portfolio {get; set;}
+        public TimHanewich.Investing.Simulation.Portfolio Portfolio {get; set;}
         public List<JournalEntry> InvestmentJournal {get; set;}
         public int InputTokensConsumed {get; set;}
         public int OutputTokensConsumed {get; set;}
 
         public State()
         {
-            Portfolio = new Portfolio();
+            Portfolio = new TimHanewich.Investing.Simulation.Portfolio();
             InvestmentJournal = new List<JournalEntry>();
         }
 

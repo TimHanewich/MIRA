@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using SecuritiesExchangeCommission.Edgar.Data;
 using SecuritiesExchangeCommission.Edgar;
 using AIA.YFinanceServer;
+using AIA.Portfolio;
 
 namespace AIA
 {
@@ -22,6 +23,22 @@ namespace AIA
 
         public static async Task EntryPoint()
         {
+
+            State tstate = State.Load();
+            Console.WriteLine("Starting...");
+            DateTimeOffset dt1 = DateTimeOffset.Now;
+            PortfolioDashboard pdash = await PortfolioDashboard.ConstructAsync(tstate.Portfolio);
+            DateTimeOffset dt2 = DateTimeOffset.Now;
+            TimeSpan ts = dt2 - dt1;
+            
+            Console.WriteLine(JsonConvert.SerializeObject(pdash));
+            Console.WriteLine(ts.TotalSeconds.ToString() + " seconds");
+
+
+
+
+
+            return;
             AnsiConsole.MarkupLine("[bold][underline]AIA: Auto Invest Agent[/][/]");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
