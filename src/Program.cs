@@ -9,6 +9,7 @@ using TheMotleyFool.Transcripts;
 using Newtonsoft.Json;
 using SecuritiesExchangeCommission.Edgar.Data;
 using SecuritiesExchangeCommission.Edgar;
+using AIA.YFinanceServer;
 
 namespace AIA
 {
@@ -181,6 +182,17 @@ namespace AIA
             else
             {
                 AnsiConsole.MarkupLine("[red]Settings arent filled in![/]");
+                return;
+            }
+
+            //Setup YFinanceServerBridge
+            YFinanceServerBridge yfsb = new YFinanceServerBridge();
+            AnsiConsole.Markup("Confirming YFinance-Server online... ");
+            bool online = await yfsb.AliveAsync();
+            AnsiConsole.MarkupLine("[green]complete[/]");
+            if (online == false)
+            {
+                AnsiConsole.MarkupLine("[red]yfinance-server is not online. This is needed for stock quotes. Please start this and try again.[/]");
                 return;
             }
 
