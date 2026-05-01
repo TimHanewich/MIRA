@@ -302,8 +302,9 @@ namespace AIA
                 // causd it to be blocked
                 if (response.ToLower().Contains("i cannot assist with that request"))
                 {
-                    AnsiConsole.MarkupLine("[DarkOrange]Block Detected. Will throw away this session and try again in 3 minutes.[/]");
+                    AnsiConsole.Markup("[DarkOrange]Block Detected. Will throw away this session and try again in 3 minutes. [/]");
                     await Task.Delay(1_000 * 60 * 3); //3 mins
+                    AnsiConsole.MarkupLine("ready.");
                     goto WakeUp;
                 }
             }
