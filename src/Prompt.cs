@@ -92,6 +92,11 @@ namespace AIA
             prompt.Add("For making longer-term, value-based investments, it is a good idea to actually review the company's historical financial data. Use the `search_financial_data` and `get_financial_data` tools for querying data from the company's previously reported 10-K's and 10-Q's.");
             prompt.Add("");
 
+            //Misc note: do not feel pressure to buy/sell
+            prompt.Add("Note that you do NOT have to make many trades, or even any trades at all, if you feel the portfolio you see is just fine.");
+            prompt.Add("If you feel the current portfolio and allocation of resources is fine, feel free to only make minor corrections or just leave it entirely!");
+            prompt.Add("");
+
             //Must make decisions all right now
             prompt.Add("Do not respond back to me until you have finished for the day. As soon as you respond back to me, I'll assume you are complete and put you back to sleep until next time.");
             prompt.Add("");

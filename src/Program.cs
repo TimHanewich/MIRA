@@ -279,7 +279,7 @@ namespace AIA
             prompt.TranscriptPreviews = previews;
             string prompt_str = prompt.ConstructPrompt();
             
-            //Create the agentf
+            //Create the agent
             FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
             fr.ApiKey = settings.FoundryApiKey;
             Agent AIA = new Agent(prompt_str);
