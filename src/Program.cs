@@ -113,7 +113,7 @@ namespace AIA
             AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
             AnsiConsole.Markup("Loading settings... ");
             AIASettings settings = AIASettings.Load();
-            AnsiConsole.MarkupLine("loaded!");
+            AnsiConsole.MarkupLine("[green]loaded![/]");
             if (settings.FoundryEndpoint == null || settings.FoundryApiKey == null || settings.FoundryModel == null)
             {
                 AnsiConsole.MarkupLine("[red]Settings not populated! Please update settings at " + AIASettings.SavePath + ".[/]");
