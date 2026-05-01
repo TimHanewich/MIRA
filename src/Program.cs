@@ -304,6 +304,7 @@ namespace AIA
             AIA.Tools.Add(new GetCIK());                            //Get the SEC CIK for a company from the stock symbol
             AIA.Tools.Add(new SearchFinancialData(bwm));            //Search available financial facts the company has previously reported
             AIA.Tools.Add(new GetFinancialData(bwm));               //Get one of those financial facts
+            AIA.Tools.Add(new Calculate());                         //Math calculator
 
             //Prompt it
             DateTimeOffset InferenceBegan = DateTimeOffset.Now;
