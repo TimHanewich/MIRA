@@ -34,7 +34,11 @@ namespace AIA.YFinanceServer
         public async Task<Quote> QuoteAsync(string symbol)
         {
             HttpResponseMessage response = await _client.GetAsync(_endpoint + "/quote/" + symbol);
-            response.EnsureSuccessStatusCode();
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                string error = await response.Content.ReadAsStringAsync();
+                throw new Exception("Quote request for '" + symbol + "' failed with status " + (int)response.StatusCode + ": " + error);
+            }
             string body = await response.Content.ReadAsStringAsync();
             JObject jo = JObject.Parse(body);
 
