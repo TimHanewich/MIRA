@@ -1,21 +1,21 @@
 using System;
 using TheMotleyFool.Transcripts;
 using TimHanewich.Investing.Simulation;
-using TimHanewich.Investing.Simulation.Performance;
+using AIA.Portfolio;
 
 namespace AIA
 {
     public class Prompt
     {
         public TimHanewich.Investing.Simulation.Portfolio Portfolio {get; set;}
-        public PortflioPerformance PortfolioPerformance {get; set;}
+        public PortfolioDashboard PortfolioDasboard {get; set;}
         public JournalEntry[] Journal {get; set;}
         public TranscriptPreview[] TranscriptPreviews {get; set;}
 
         public Prompt()
         {
             Portfolio = null!;
-            PortfolioPerformance = null!;
+            PortfolioDasboard = null!;
             Journal = null!;
             TranscriptPreviews = null!;
         }
@@ -37,11 +37,8 @@ namespace AIA
             prompt.Add("");
 
             //Add state
-            prompt.Add("This is your current portfolio:");
-            prompt.Add(Portfolio.ToString());
-            prompt.Add("");
-            prompt.Add("This is your portfolio's current performance:");
-            prompt.Add(PortfolioPerformance.ToString());
+            prompt.Add("This is your current portfolio dashboard:");
+            prompt.Add(PortfolioDasboard.Print());
             prompt.Add("");
 
             //Log

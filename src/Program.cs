@@ -1,6 +1,5 @@
 ﻿using System;
 using TimHanewich.Investing.Simulation;
-using TimHanewich.Investing.Simulation.Performance;
 using TimHanewich.AgentFramework;
 using Spectre.Console;
 using TimHanewich.Foundry;
@@ -31,14 +30,15 @@ namespace AIA
             DateTimeOffset dt2 = DateTimeOffset.Now;
             TimeSpan ts = dt2 - dt1;
             
-            Console.WriteLine(JsonConvert.SerializeObject(pdash));
+            Console.WriteLine(pdash.Print());
+            Console.WriteLine();
             Console.WriteLine(ts.TotalSeconds.ToString() + " seconds");
 
 
 
 
 
-            return;
+            //return;
             AnsiConsole.MarkupLine("[bold][underline]AIA: Auto Invest Agent[/][/]");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
@@ -69,7 +69,7 @@ namespace AIA
                 //Gather current portfolio value and such
                 AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
                 DateTimeOffset pp_start_at = DateTimeOffset.Now;
-                PortflioPerformance pp = await state.Portfolio.CalculatePerformanceAsync();
+                PortfolioDashboard pd = await PortfolioDashboard.ConstructAsync(state.Portfolio);
                 DateTimeOffset pp_end_at = DateTimeOffset.Now;
                 AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0") + " seconds[/]");
                 Console.WriteLine();
@@ -82,29 +82,28 @@ namespace AIA
 
                 //Print total profitability
                 AnsiConsole.MarkupLine("[underline]Profitability[/]");
-                if (pp.Profit > 0.0f)
+                if (pd.TotalGainLoss > 0.0f)
                 {
-                   AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + Math.Abs(pp.Profit).ToString("#,##0") + "[/][/]"); 
+                   AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + Math.Abs(pd.TotalGainLoss).ToString("#,##0") + "[/][/]"); 
                 }
                 else
                 {
-                    AnsiConsole.MarkupLine("Net Loss: [red][bold]$" + Math.Abs(pp.Profit).ToString("#,##0") + "[/][/]"); 
+                    AnsiConsole.MarkupLine("Net Loss: [red][bold]$" + Math.Abs(pd.TotalGainLoss).ToString("#,##0") + "[/][/]"); 
                 }
-                AnsiConsole.MarkupLine("Trading Expenses (commission) paid: $" + pp.ExpensesPaid.ToString("#,##0"));
                 Console.WriteLine();
 
                 //Sort holding performances by gain (return) from most to least
-                HoldingPerformance[] sorted_hps = pp.HoldingPerformances.OrderByDescending(hp => hp.Gain).ToArray();
+                PortfolioHolding[] sorted_phs = pd.Holdings.OrderByDescending(hp => hp.UnrealizedGainLoss).ToArray();
 
                 //Print holdings and performances
                 AnsiConsole.MarkupLine("[underline]Holdings[/]");
-                foreach (HoldingPerformance hp in sorted_hps)
+                foreach (PortfolioHolding ph in sorted_phs)
                 {
-                    AnsiConsole.Markup("[bold]" + hp.Holding.Symbol + "[/]: " + "[blue]" + hp.Holding.Quantity.ToString("#,##0") + " shares[/], ");
+                    AnsiConsole.Markup("[bold]" + ph.Symbol + "[/]: " + "[blue]" + ph.QuantityOwned.ToString("#,##0") + " shares[/], ");
                     
                     //Determine color
                     string color = "";
-                    if (hp.Gain > 0.0f)
+                    if (ph.UnrealizedGainLoss > 0.0f)
                     {
                         color = "green";
                     }
@@ -114,7 +113,7 @@ namespace AIA
                     }
 
                     //Print
-                    AnsiConsole.MarkupLine("[" + color + "]" + hp.PercentGain.ToString("#0.0%") + "[/], [" + color + "]$" + hp.Gain.ToString("#,##0") + "[/]");
+                    AnsiConsole.MarkupLine("[" + color + "]" + ph.UnrealizedGainLossPercent.ToString("#0.0") + "%[/], [" + color + "]$" + ph.UnrealizedGainLoss.ToString("#,##0") + "[/]");
                 }
                 
             }
@@ -243,22 +242,22 @@ namespace AIA
             //Gather current portfolio value and such
             AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
             DateTimeOffset pp_start_at = DateTimeOffset.Now;
-            PortflioPerformance? pp = null;
-            while (pp == null)
+            PortfolioDashboard? pd = null;
+            while (pd == null)
             {
                 try
                 {
-                    pp = await state.Portfolio.CalculatePerformanceAsync();
+                    pd = await PortfolioDashboard.ConstructAsync(state.Portfolio);
                 }
                 catch (Exception ex)
                 {
-                    AnsiConsole.MarkupLine("[red]Failure while collecting Portfolio Performance: " + Markup.Escape(ex.Message) + "[/]");
+                    AnsiConsole.MarkupLine("[red]Failure while constructing Portfolio Dashboard: " + Markup.Escape(ex.Message) + "[/]");
                 }
 
                 //If not collected wait
-                if (pp == null)
+                if (pd == null)
                 {
-                    AnsiConsole.Markup("[red]Was unable to collect PortfolioPerformance. Waiting 3 minutes and then will try again. [/]");
+                    AnsiConsole.Markup("[red]Was unable to construct Portfolio Dashboard. Waiting 3 minutes and then will try again. [/]");
                     await Task.Delay(new TimeSpan(0, 3, 0)); //3 mins
                     AnsiConsole.MarkupLine("ready.");
                 }
@@ -275,7 +274,7 @@ namespace AIA
             //Construct prompt
             Prompt prompt = new Prompt();
             prompt.Portfolio = state.Portfolio;
-            prompt.PortfolioPerformance = pp;
+            prompt.PortfolioDasboard = pd;
             prompt.Journal = state.InvestmentJournal.ToArray();
             prompt.TranscriptPreviews = previews;
             string prompt_str = prompt.ConstructPrompt();
