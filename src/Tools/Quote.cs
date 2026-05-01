@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using TimHanewich.AgentFramework;
 using TimHanewich.Foundry.OpenAI.Responses;
 using Yahoo.Finance;
+using AIA.YFinanceServer;
 
 namespace AIA
 {
@@ -25,22 +26,19 @@ namespace AIA
             }
 
             //Get symbol
-            string symbol = "";
             JProperty? prop_symbol = arguments.Property("symbol");
             if (prop_symbol == null)
             {
                 return "Must provide 'symbol' argument.";
             }
-            symbol = prop_symbol.Value.ToString();
+            string symbol = prop_symbol.Value.ToString();
 
-            //Get quote
-            Equity e = Equity.Create(symbol);
-
-            //Try to download summary data
+            //Try to download
             try
             {
-                await e.DownloadSummaryAsync();
-                return JsonConvert.SerializeObject(e.Summary, Formatting.Indented);
+                YFinanceServerBridge yfsb = new YFinanceServerBridge();
+                AIA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
+                return JsonConvert.SerializeObject(quote, Formatting.Indented);
             }
             catch (Exception ex)
             {
