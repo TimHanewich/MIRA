@@ -17,10 +17,10 @@ namespace AIA
     {
         public static void Main(string[] args)
         {            
-            EntryPoint().Wait();
+            StartHereAsync().Wait();
         }
 
-        public static async Task EntryPoint()
+        public static async Task StartHereAsync()
         {
             AnsiConsole.MarkupLine("[bold][underline]AIA: Auto Invest Agent[/][/]");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
@@ -36,7 +36,7 @@ namespace AIA
             //Handle what to do
             if (selection == "Run AIA (timer)")
             {
-                await EnterAsync();
+                await PeriodicalTradingAsync();
             }
             else if (selection == "Wake up right now")
             {
@@ -122,7 +122,7 @@ namespace AIA
             }
         }
 
-        public static async Task EnterAsync()
+        public static async Task PeriodicalTradingAsync()
         {
 
             //Validate settings
