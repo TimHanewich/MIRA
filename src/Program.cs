@@ -54,7 +54,7 @@ namespace AIA
                 DateTimeOffset pp_start_at = DateTimeOffset.Now;
                 PortfolioDashboard pd = await PortfolioDashboard.ConstructAsync(state.Portfolio);
                 DateTimeOffset pp_end_at = DateTimeOffset.Now;
-                AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0") + " seconds[/]");
+                AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0.0") + " seconds[/]");
                 Console.WriteLine();
 
                 //Print
