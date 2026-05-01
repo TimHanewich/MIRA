@@ -36,6 +36,12 @@ namespace AIA.Portfolio
                 AllHoldingSymbols.Add(h.Symbol.Trim().ToUpper());
             }
 
+            //If there are no symbols at all, return as is (blank)
+            if (AllHoldingSymbols.Count == 0)
+            {
+                return ToReturn;
+            }
+
             //Get them
             YFinanceServerBridge yfsb = new YFinanceServerBridge();
             YFinanceServer.Quote[] quotes = await yfsb.QuoteMultipleAsync(AllHoldingSymbols.ToArray());
