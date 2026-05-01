@@ -1,11 +1,15 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace AIA.YFinanceServer
 {
     public class YFinanceServerBridge
     {
         private string _endpoint;
+        private static HttpClient _client = new HttpClient();
 
         public YFinanceServerBridge(string endpoint = "http://localhost:8080")
         {
@@ -13,22 +17,63 @@ namespace AIA.YFinanceServer
         }
 
         //Check it is alive
-        public static async Task<bool> AliveAsync()
+        public async Task<bool> AliveAsync()
         {
-            //Run api request to the /alive endpoint to confirm it gives back 200 OK
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync(_endpoint + "/alive");
+                return response.StatusCode == System.Net.HttpStatusCode.OK;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         //Quote one stock
-        public static async Task<Quote> QuoteAsync(string symbol)
+        public async Task<Quote> QuoteAsync(string symbol)
         {
-            //Run api request to /quote endpoint with that one symbol to and return Quote
+            HttpResponseMessage response = await _client.GetAsync(_endpoint + "/quote/" + symbol);
+            response.EnsureSuccessStatusCode();
+            string body = await response.Content.ReadAsStringAsync();
+            JObject jo = JObject.Parse(body);
+
+            Quote q = new Quote();
+            q.Symbol = symbol.ToUpper();
+            q.Price = jo.Value<float>("price");
+            q.Change = jo.Value<float>("change");
+            q.ChangePercent = jo.Value<float>("changePercent");
+            return q;
         }
 
         //Quote multiple stocks
-        public static async Task<Quote[]> QuoteMultipleAsync(params string[] symbols)
+        public async Task<Quote[]> QuoteMultipleAsync(params string[] symbols)
         {
-            //Run api request to /quote endpoint for request of multiple stocks and return multiple Quote[]
-            //If one of them did not come back (there was an issue), just don't return it (omit it)
+            string joined = string.Join(",", symbols);
+            HttpResponseMessage response = await _client.GetAsync(_endpoint + "/quote/" + joined);
+            response.EnsureSuccessStatusCode();
+            string body = await response.Content.ReadAsStringAsync();
+            JObject jo = JObject.Parse(body);
+
+            List<Quote> quotes = new List<Quote>();
+            foreach (JProperty prop in jo.Properties())
+            {
+                //If one of them did not come back (there was an issue), just don't return it (omit it)
+                if (prop.Value.Type != JTokenType.Object)
+                {
+                    continue;
+                }
+
+                JObject qo = (JObject)prop.Value;
+                Quote q = new Quote();
+                q.Symbol = prop.Name.ToUpper();
+                q.Price = qo.Value<float>("price");
+                q.Change = qo.Value<float>("change");
+                q.ChangePercent = qo.Value<float>("changePercent");
+                quotes.Add(q);
+            }
+
+            return quotes.ToArray();
         }
 
         
