@@ -126,6 +126,8 @@ namespace AIA
 
         public static async Task PeriodicTradingAsync()
         {
+            //Ask for custom instruction input
+            string? CustInstr = Tools.AskForCustomInstructions();
 
             //Validate settings
             AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
@@ -174,7 +176,7 @@ namespace AIA
                 }
 
                 //Wake!
-                await WakeAsync();
+                await WakeAsync(CustInstr);
             }
         }
 
