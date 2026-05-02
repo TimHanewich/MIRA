@@ -288,7 +288,7 @@ namespace AIA
             prompt.PortfolioDasboard = pd;
             prompt.Journal = state.InvestmentJournal.ToArray();
             prompt.TranscriptPreviews = previews;
-            string prompt_str = prompt.ConstructPrompt();
+            string prompt_str = prompt.SystemPrompt();
             
             //Create the agent
             FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
