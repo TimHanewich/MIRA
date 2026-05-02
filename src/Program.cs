@@ -22,6 +22,15 @@ namespace AIA
 
         public static async Task StartHereAsync()
         {
+            JObject args = new JObject();
+            args.Add("date", "5/1/2026");
+
+            ReadJournal rj = new ReadJournal(State.Load());
+            string ans = await rj.ExecuteAsync(args);
+            Console.WriteLine(ans);
+            Console.ReadLine();
+
+
             AnsiConsole.MarkupLine("[bold][underline]AIA: Auto Invest Agent[/][/]");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
@@ -302,8 +311,9 @@ namespace AIA
             AIA.Tools.Add(new Quote());
             AIA.Tools.Add(new Buy(state));
             AIA.Tools.Add(new Sell(state));
-            AIA.Tools.Add(new LogJournal(state));
-            AIA.Tools.Add(new ReadJournal(state));
+            AIA.Tools.Add(new OpenJournal(state));                  //Get a list of journal entries on days
+            AIA.Tools.Add(new ReadJournal(state));                  //Open a particular day of journal logs
+            AIA.Tools.Add(new LogJournal(state));                   //Log to the investment journal
             AIA.Tools.Add(new ReadEarningsCallTranscript());
             AIA.Tools.Add(new GetCIK());                            //Get the SEC CIK for a company from the stock symbol
             AIA.Tools.Add(new SearchFinancialData(bwm));            //Search available financial facts the company has previously reported
