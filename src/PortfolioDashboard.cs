@@ -3,7 +3,7 @@ using System.ComponentModel;
 using TimHanewich.Investing.Simulation;
 using AIA.YFinanceServer;
 
-namespace AIA.Portfolio
+namespace AIA
 {
     public class PortfolioDashboard
     {
