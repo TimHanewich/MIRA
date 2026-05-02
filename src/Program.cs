@@ -28,22 +28,22 @@ namespace AIA
             //Ask what to do
             Console.WriteLine();
             SelectionPrompt<string> SelectToDo = new SelectionPrompt<string>();
-            SelectToDo.AddChoice("Run AIA (timer)");
-            SelectToDo.AddChoice("Wake up right now");
-            SelectToDo.AddChoice("Chat mode");
+            SelectToDo.AddChoice("Schedule AIA for Automated Investments");
+            SelectToDo.AddChoice("Run AIA Now: Autonomous Mode");
+            SelectToDo.AddChoice("Run AIA Now: Assistant Mode");
             SelectToDo.AddChoice("Review Portfolio");
             string selection = AnsiConsole.Prompt(SelectToDo);
 
             //Handle what to do
-            if (selection == "Run AIA (timer)")
+            if (selection == "Schedule AIA for Automated Investments")
             {
                 await PeriodicTradingAsync();
             }
-            else if (selection == "Wake up right now")
+            else if (selection == "Run AIA Now: Autonomous Mode")
             {
                 await WakeAsync(Tools.AskForCustomInstructions());
             }
-            else if (selection == "Chat mode")
+            else if (selection == "Run AIA Now: Assistant Mode")
             {
                 await WakeAsync(mode: AgentMode.Assistant);
             }
