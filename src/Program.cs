@@ -128,6 +128,7 @@ namespace AIA
         {
             //Ask for custom instruction input
             string? CustInstr = Tools.AskForCustomInstructions();
+            Console.WriteLine();
 
             //Validate settings
             AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
@@ -150,6 +151,7 @@ namespace AIA
                 AnsiConsole.MarkupLine("[red]yfinance-server is not online. This is needed for stock quotes. Please start this and try again.[/]");
                 return;
             }
+            Console.WriteLine();
 
             //Continuously wake
             while (true)
@@ -162,7 +164,7 @@ namespace AIA
                 while (true)
                 {
                     TimeSpan UntilNextWakeTime = NextWakeTime - DateTimeOffset.Now;
-                    string ToPrint = "\rWaiting until " + NextWakeTime.Month.ToString() + "/" + NextWakeTime.Day.ToString() + "/" + NextWakeTime.Year.ToString() + " at 3 PM EST: " + UntilNextWakeTime.TotalSeconds.ToString("#,##0") + " seconds remaining...";
+                    string ToPrint = "\rWaiting until " + NextWakeTime.Month.ToString() + "/" + NextWakeTime.Day.ToString() + "/" + NextWakeTime.Year.ToString() + " at 3 PM EST to wake up: " + UntilNextWakeTime.TotalSeconds.ToString("#,##0") + " seconds remaining...";
                     while (ToPrint.Length < Console.WindowWidth)
                     {
                         ToPrint = ToPrint + " ";
