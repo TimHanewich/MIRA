@@ -12,6 +12,7 @@ namespace AIA
         {
             Name = "read_journal";
             Description = "Read investment log(s) from a particular day.";
+            InputParameters.Add(new TimHanewich.Foundry.OpenAI.Responses.FunctionInputParameter("date", "The date to read from, in MM/DD/YYYY format."));
 
             UseState = use_state;
         }
