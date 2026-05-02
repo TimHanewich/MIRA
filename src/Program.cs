@@ -254,32 +254,6 @@ namespace AIA
             {
                 AnsiConsole.MarkupLine("[green]portfolio with " + state.Portfolio.Holdings().Length.ToString("#,##0") + " holdings loaded[/]");
             }
-          
-            //Gather current portfolio value and such
-            AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
-            DateTimeOffset pp_start_at = DateTimeOffset.Now;
-            PortfolioDashboard? pd = null;
-            while (pd == null)
-            {
-                try
-                {
-                    pd = await PortfolioDashboard.ConstructAsync(state.Portfolio);
-                }
-                catch (Exception ex)
-                {
-                    AnsiConsole.MarkupLine("[red]Failure while constructing Portfolio Dashboard: " + Markup.Escape(ex.Message) + "[/]");
-                }
-
-                //If not collected wait
-                if (pd == null)
-                {
-                    AnsiConsole.Markup("[red]Was unable to construct Portfolio Dashboard. Waiting 3 minutes and then will try again. [/]");
-                    await Task.Delay(new TimeSpan(0, 3, 0)); //3 mins
-                    AnsiConsole.MarkupLine("ready.");
-                }
-            }
-            DateTimeOffset pp_end_at = DateTimeOffset.Now;
-            AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0.0") + " seconds[/]");
 
             //Gather latest earnings call transcripts available
             AnsiConsole.Markup("Gathering latest earnings calls... ");
@@ -289,9 +263,6 @@ namespace AIA
 
             //Construct prompt
             Prompt prompt = new Prompt();
-            prompt.Portfolio = state.Portfolio;
-            prompt.PortfolioDasboard = pd;
-            prompt.Journal = state.InvestmentJournal.ToArray();
             prompt.TranscriptPreviews = previews;
             string prompt_str = prompt.SystemPrompt();
             
