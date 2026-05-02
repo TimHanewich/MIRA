@@ -20,18 +20,45 @@ namespace AIA
             TranscriptPreviews = null!;
         }
 
-        public string ConstructPrompt()
+        //The "Standard" prompt that is included all the time.
+        public string SystemPrompt()
         {
-
             List<string> prompt = new List<string>();
 
             //Who it is
             prompt.Add("You are AIA, Auto-Investing Agent. You are an autonomous investing agent that uses your knowledge of investing to profit.");
             prompt.Add("The current date and time is " + DateTimeOffset.Now.ToString() + ".");
-            prompt.Add("You have been awoken to review your portfolio, analyze the market, and be given the opportunity to make changes as you see fit (or none if you see fit).");
             prompt.Add("");
 
+            //SEC EDGAR info
+            prompt.Add("You have the ability to access financial filing data from the SEC's EDGAR database. A common flow will look like this:");
+            prompt.Add("1. Use your `get_cik` tool to find the CIK for any publicly traded company from its ticker symbol. Use this if you do not know the CIK already.");
+            prompt.Add("2. Use your `search_financial_data` tool to search through the available financial data points that company has previously reported and you can access.");
+            prompt.Add("3. Use your `get_financial_data` to access data for one of those returned facts, showing you the historical data points for that fact for that company.");
+            prompt.Add("");
+
+            //Web Search
+            prompt.Add("You can also use your built-in `web_search` tool to search the web for latest news or information on a company, sector, industry, etc.");
+            prompt.Add("Do not underestimate the value of knowledge you can find online.");
+            prompt.Add("");
+            
+            //Join and return
+            string ToReturn = "";
+            foreach (string line in prompt)
+            {
+                ToReturn = ToReturn + line + "\n";
+            }
+            return ToReturn.Trim();
+        }
+
+        //The additional instructions to perform trades with a goal
+        //This is used as the user prompt.
+        public string TradingPrompt()
+        {
+            List<string> prompt = new List<string>();
+            
             //Goal
+            prompt.Add("You have been awoken to review your portfolio, analyze the market, and be given the opportunity to make changes as you see fit (or none if you see fit).");
             prompt.Add("Your goal is to use optimal investment strategies to outperform the S&P500.");
             prompt.Add("You are welcome to develop your own strategies in markets, industries, or sectors that you feel present opportunity.");
             prompt.Add("");
@@ -70,13 +97,6 @@ namespace AIA
                 }
                 prompt.Add("");
             }
-
-            //SEC EDGAR info
-            prompt.Add("You also have the ability to access financial filing data from the SEC's EDGAR database. A common flow will look like this:");
-            prompt.Add("1. Use your `get_cik` tool to find the CIK for any publicly traded company from its ticker symbol. Use this if you do not know the CIK already.");
-            prompt.Add("2. Use your `search_financial_data` tool to search through the available financial data points that company has previously reported and you can access.");
-            prompt.Add("3. Use your `get_financial_data` to access data for one of those returned facts, showing you the historical data points for that fact for that company.");
-            prompt.Add("");
 
             //Suggested strategies
             prompt.Add("Some good ideas you may want to use:");
