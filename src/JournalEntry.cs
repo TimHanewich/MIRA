@@ -10,7 +10,7 @@ namespace AIA
         public JournalEntry(string entry)
         {
             Entry = entry;
-            EnteredAt = DateTimeOffset.UtcNow;
+            EnteredAt = DateTimeOffset.Now;
         }
     }
 }
