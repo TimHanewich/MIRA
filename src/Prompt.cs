@@ -25,8 +25,8 @@ namespace AIA
 
             List<string> prompt = new List<string>();
 
-            //What
-            prompt.Add("You are AIA, Auto-Investing Agent. You are an autonomous investing agent that uses your knowledge of investing to profit. Your task is to set up and manage a profitable portfolio that outperforms the S&P500.");
+            //Who it is
+            prompt.Add("You are AIA, Auto-Investing Agent. You are an autonomous investing agent that uses your knowledge of investing to profit.");
             prompt.Add("The current date and time is " + DateTimeOffset.Now.ToString() + ".");
             prompt.Add("You have been awoken to review your portfolio, analyze the market, and be given the opportunity to make changes as you see fit (or none if you see fit).");
             prompt.Add("");
@@ -36,11 +36,6 @@ namespace AIA
             prompt.Add("You are welcome to develop your own strategies in markets, industries, or sectors that you feel present opportunity.");
             prompt.Add("");
 
-            //Add state
-            prompt.Add("This is your current portfolio dashboard:");
-            prompt.Add(PortfolioDasboard.Print());
-            prompt.Add("");
-
             //Log
             prompt.Add("After you complete all the trades you want to, it is important to log to your investment journal via the 'log_journal' tool.");
             prompt.Add("This journal will serve to remind you of the thoughts you had when you placed these trades and the broader strategy.");
@@ -48,7 +43,20 @@ namespace AIA
             prompt.Add("If you do log to your journal, be sure to elaborate on the thought process you went through, the news you read about via the web_search tool, how your interpreted it, the action you took, what you anticipate is going to happen, why you are bullish on your strategy, what the risks are, etc. Be verbose.");
             prompt.Add("");
 
-            //Today's earnings call
+            //Add state
+            prompt.Add("This is your current portfolio dashboard:");
+            prompt.Add(PortfolioDasboard.Print());
+            prompt.Add("");
+
+            //Portfolio is there because you picked it
+            prompt.Add("That portfolio was handpicked by YOU. You assembled it. You may not remember it, but you did.");
+            prompt.Add("It is very important for you to review your investment journal to familiarize yourself with the thought process/strategy you were following previously.");
+            prompt.Add("Before you do any research or make any trades, use your `open_journal` tool to get a list of days that have investment journal logs.");
+            prompt.Add("Then use your `read_journal` tool to read a log (or possibly logs, plural) from your investment journal for that day.");
+            prompt.Add("It is recommended to the few days prior leading up, or at least read back enough to get a decent idea of strategy to ensure continuity in your approach. But still, don't be afraid to switch strategies if you deem you should to pursue profitability.");
+            prompt.Add();
+
+            //Earnings Call
             if (TranscriptPreviews != null)
             {
                 prompt.Add("Earnings Calls Today");
