@@ -108,7 +108,7 @@ namespace AIA.Portfolio
             //Add totals
             ToReturn = ToReturn + "**PORTFOLIO DETAILS**";
             ToReturn = ToReturn + "\n" + "Cash Invested: $" + CashInjected.ToString("#,##0");
-            ToReturn = ToReturn + "\n" + "Cash Balance: $" + CashBalance.ToString("#,##0.00");
+            ToReturn = ToReturn + "\n" + "Cash Balance: $" + CashBalance.ToString("#,##0");
             ToReturn = ToReturn + "\n" + "Holdings Value: $" + HoldingsValue.ToString("#,##0");
             ToReturn = ToReturn + "\n" + "Total Gain/Loss: $" + TotalGainLoss.ToString("#,##0");
             ToReturn = ToReturn + "\n\n";
