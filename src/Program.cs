@@ -316,6 +316,44 @@ namespace AIA
             AIA.Tools.Add(new GetFinancialData(bwm));               //Get one of those financial facts
             AIA.Tools.Add(new Calculate());                         //Math calculator
 
+            //If in guided mode (continuous chat with user), hijack in infinite loop now.
+            if (mode == AgentMode.Assistant)
+            {
+                Console.WriteLine();
+                AnsiConsole.MarkupLine("[bold]----- AGENT CONVERSATION -----[/]");
+                Console.WriteLine();
+
+                while (true)
+                {
+                    //Collect input
+                    string? input = null;
+                    while (input == null || input == "")
+                    {
+                        Console.Write("> ");
+                        input = Console.ReadLine();
+                    }
+                    
+                    //Prompt
+                    Console.WriteLine();
+                    string? cresponse = null;
+                    try
+                    {
+                        cresponse = await AIA.PromptAsync(input);
+                    }
+                    catch (Exception ex)
+                    {
+                        AnsiConsole.MarkupLine("[red]Error during prompt: " + ex.Message + "[/]");
+                    }
+
+                    //Print
+                    if (cresponse != null)
+                    {
+                        AnsiConsole.MarkupLine("[blue]" + cresponse + "[/]");
+                    }
+                    Console.WriteLine();
+                }
+            }
+
             //Prompt it
             DateTimeOffset InferenceBegan = DateTimeOffset.Now;
             AnsiConsole.MarkupLine("NOW RUNNING AGENT!");
