@@ -11,7 +11,7 @@ namespace AIA
         public ReadJournal(State use_state)
         {
             Name = "read_journal";
-            Description = "Read your investment journal to review past entries, strategies, and thoughts you previously logged.";
+            Description = "Open your investment journal to review a list of past entries that can then be read.";
 
             UseState = use_state;
         }
@@ -24,14 +24,28 @@ namespace AIA
                 return "Your investment journal is empty. No entries have been logged yet.";
             }
 
-            //Compile entries
-            string toreturn = "Your investment journal has " + UseState.InvestmentJournal.Count.ToString() + " entries:\n\n";
+            //Sort journal entries
+            UseState.InvestmentJournal = UseState.InvestmentJournal.OrderBy(j => j.EnteredAt).ToList();
+
+            //Make list of dates
+            List<string> dates = new List<string>();
             foreach (JournalEntry je in UseState.InvestmentJournal)
             {
-                toreturn += je.EnteredAt.ToString("yyyy-MM-dd HH:mm:ss") + " - " + je.Entry + "\n";
+                string ThisDate = je.EnteredAt.Month.ToString() + "/" + je.EnteredAt.Day.ToString() + "/" + je.EnteredAt.Year.ToString();
+                if (dates.Contains(ThisDate) == false)
+                {
+                    dates.Add(ThisDate);
+                }
             }
 
-            return toreturn;
+            //Compile entries
+            string toreturn = "Your investment journal has entries from the following days:\n";
+            foreach (string date in dates)
+            {
+                toreturn = toreturn + date + "\n";
+            }
+
+            return toreturn.Trim();
         }
     }
 }
