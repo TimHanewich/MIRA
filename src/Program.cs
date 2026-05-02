@@ -36,7 +36,7 @@ namespace AIA
             //Handle what to do
             if (selection == "Run AIA (timer)")
             {
-                await PeriodicalTradingAsync();
+                await PeriodicTradingAsync();
             }
             else if (selection == "Wake up right now")
             {
@@ -124,7 +124,7 @@ namespace AIA
             }
         }
 
-        public static async Task PeriodicalTradingAsync()
+        public static async Task PeriodicTradingAsync()
         {
 
             //Validate settings
