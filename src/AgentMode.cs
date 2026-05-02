@@ -1,6 +1,6 @@
 using System;
 
-namespace AIA
+namespace MIRA
 {
     public enum AgentMode
     {

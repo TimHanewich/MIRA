@@ -4,7 +4,7 @@ using SecuritiesExchangeCommission.Edgar;
 using SecuritiesExchangeCommission.Edgar.Data;
 using System.Collections.Generic;
 
-namespace AIA
+namespace MIRA
 {
     //Manages API calls for data to the SEC API so we aren't constantly calling to it (it is a lot of data to pull down each time)
     public class SECBandwidthManager

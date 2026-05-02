@@ -2,7 +2,7 @@ using System;
 using TimHanewich.AgentFramework;
 using Newtonsoft.Json.Linq;
 
-namespace AIA
+namespace MIRA
 {
     public class ViewPortfolio : ExecutableFunction
     {

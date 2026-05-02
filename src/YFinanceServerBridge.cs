@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace AIA.YFinanceServer
+namespace MIRA.YFinanceServer
 {
     public class YFinanceServerBridge
     {

@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel;
 using TimHanewich.Investing.Simulation;
-using AIA.YFinanceServer;
+using MIRA.YFinanceServer;
 
-namespace AIA
+namespace MIRA
 {
     public class PortfolioDashboard
     {

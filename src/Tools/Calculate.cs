@@ -3,7 +3,7 @@ using System.Data;
 using Newtonsoft.Json.Linq;
 using TimHanewich.AgentFramework;
 
-namespace AIA
+namespace MIRA
 {
     public class Calculate : ExecutableFunction
     {

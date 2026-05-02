@@ -1,11 +1,11 @@
 using System;
-using AIA.YFinanceServer;
+using MIRA.YFinanceServer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TimHanewich.AgentFramework;
 using TimHanewich.Foundry.OpenAI.Responses;
 
-namespace AIA
+namespace MIRA
 {
     public class Buy : ExecutableFunction
     {
@@ -61,7 +61,7 @@ namespace AIA
             try
             {
                 YFinanceServerBridge yfsb = new YFinanceServerBridge();
-                AIA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
+                MIRA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
                 UseState.Portfolio.Buy(symbol, quantity, quote.Price);
             }
             catch (Exception ex)

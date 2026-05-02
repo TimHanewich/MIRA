@@ -6,7 +6,7 @@ using TimHanewich.Foundry.OpenAI.Responses;
 using SecuritiesExchangeCommission.Edgar;
 using SecuritiesExchangeCommission.Edgar.Data;
 
-namespace AIA
+namespace MIRA
 {
     public class SearchFinancialData : ExecutableFunction
     {

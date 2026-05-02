@@ -1,9 +1,9 @@
 using System;
 using Newtonsoft.Json;
 
-namespace AIA
+namespace MIRA
 {
-    public class AIASettings
+    public class MIRASettings
     {
         public string? FoundryEndpoint {get; set;}
         public string? FoundryApiKey {get; set;}
@@ -17,18 +17,18 @@ namespace AIA
             }
         }
 
-        public static AIASettings Load()
+        public static MIRASettings Load()
         {
             if (System.IO.File.Exists(SavePath))
             {
                 string content = System.IO.File.ReadAllText(SavePath);
-                AIASettings? loaded = JsonConvert.DeserializeObject<AIASettings>(content);
+                MIRASettings? loaded = JsonConvert.DeserializeObject<MIRASettings>(content);
                 if (loaded != null)
                 {
                     return loaded;
                 }
             }
-            return new AIASettings();
+            return new MIRASettings();
         }
 
         public void Save()

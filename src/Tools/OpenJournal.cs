@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json.Linq;
 using TimHanewich.AgentFramework;
 
-namespace AIA
+namespace MIRA
 {
     public class OpenJournal : ExecutableFunction
     {

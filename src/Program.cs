@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TimHanewich.Investing.Simulation;
 using TimHanewich.AgentFramework;
 using Spectre.Console;
@@ -8,9 +8,9 @@ using TheMotleyFool.Transcripts;
 using Newtonsoft.Json;
 using SecuritiesExchangeCommission.Edgar.Data;
 using SecuritiesExchangeCommission.Edgar;
-using AIA.YFinanceServer;
+using MIRA.YFinanceServer;
 
-namespace AIA
+namespace MIRA
 {
     public class Program
     {
@@ -21,28 +21,28 @@ namespace AIA
 
         public static async Task StartHereAsync()
         {
-            AnsiConsole.MarkupLine("[bold][underline]AIA: Auto Invest Agent[/][/]");
+            AnsiConsole.MarkupLine("[bold][underline]MIRA: Market Intelligence & Research Agent[/][/]");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
             //Ask what to do
             Console.WriteLine();
             SelectionPrompt<string> SelectToDo = new SelectionPrompt<string>();
-            SelectToDo.AddChoice("Schedule AIA for Automated Investments");
-            SelectToDo.AddChoice("Run AIA Now: Autonomous Mode");
-            SelectToDo.AddChoice("Run AIA Now: Assistant Mode");
+            SelectToDo.AddChoice("Schedule MIRA for Automated Investments");
+            SelectToDo.AddChoice("Run MIRA Now: Autonomous Mode");
+            SelectToDo.AddChoice("Run MIRA Now: Assistant Mode");
             SelectToDo.AddChoice("Review Portfolio");
             string selection = AnsiConsole.Prompt(SelectToDo);
 
             //Handle what to do
-            if (selection == "Schedule AIA for Automated Investments")
+            if (selection == "Schedule MIRA for Automated Investments")
             {
                 await PeriodicTradingAsync();
             }
-            else if (selection == "Run AIA Now: Autonomous Mode")
+            else if (selection == "Run MIRA Now: Autonomous Mode")
             {
                 await WakeAsync(AgentMode.Autonomous, Tools.AskForCustomInstructions());
             }
-            else if (selection == "Run AIA Now: Assistant Mode")
+            else if (selection == "Run MIRA Now: Assistant Mode")
             {
                 await WakeAsync(AgentMode.Assistant);
             }
@@ -62,7 +62,7 @@ namespace AIA
                 Console.WriteLine();
 
                 //Print
-                AnsiConsole.MarkupLine("[bold][underline][blue]AIA Managed Portfolio[/][/][/]");
+                AnsiConsole.MarkupLine("[bold][underline][blue]MIRA Managed Portfolio[/][/][/]");
                 AnsiConsole.MarkupLine("Cash Balance: $" + state.Portfolio.Cash.ToString("#,##0.00"));
                 AnsiConsole.MarkupLine("Trades made: " + state.Portfolio.HoldingTransactionLog.Count.ToString("#,##0"));
                 Console.WriteLine();
@@ -142,11 +142,11 @@ namespace AIA
             //Validate settings
             AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
             AnsiConsole.Markup("Loading settings... ");
-            AIASettings settings = AIASettings.Load();
+            MIRASettings settings = MIRASettings.Load();
             AnsiConsole.MarkupLine("[green]loaded![/]");
             if (settings.FoundryEndpoint == null || settings.FoundryApiKey == null || settings.FoundryModel == null)
             {
-                AnsiConsole.MarkupLine("[red]Settings not populated! Please update settings at " + AIASettings.SavePath + ".[/]");
+                AnsiConsole.MarkupLine("[red]Settings not populated! Please update settings at " + MIRASettings.SavePath + ".[/]");
                 return;
             }
 
@@ -197,11 +197,11 @@ namespace AIA
 
             //Print awake
             DateTimeOffset WakeUpTime = DateTimeOffset.Now;
-            AnsiConsole.MarkupLine("[bold]AIA WAKING UP AT " + DateTimeOffset.Now.ToString() + "[/]");
+            AnsiConsole.MarkupLine("[bold]MIRA WAKING UP AT " + DateTimeOffset.Now.ToString() + "[/]");
 
             //Load settings
             AnsiConsole.Markup("Loading settings... ");
-            AIASettings settings = AIASettings.Load();
+            MIRASettings settings = MIRASettings.Load();
             AnsiConsole.MarkupLine("[green]loaded[/]");
 
             //Validate settings
@@ -229,7 +229,7 @@ namespace AIA
 
             //Set up SEC EDGAR
             AnsiConsole.Markup("Setting up SEC EDGAR infa... ");
-            IdentificationManager.Instance.AppName = "AIA";
+            IdentificationManager.Instance.AppName = "MIRA";
             IdentificationManager.Instance.AppVersion = "1.0";
             IdentificationManager.Instance.Email = "surferdude101@gmail.com";
             SECBandwidthManager bwm = new SECBandwidthManager();
@@ -267,29 +267,29 @@ namespace AIA
             //Create the agent
             FoundryResource fr = new FoundryResource(settings.FoundryEndpoint);
             fr.ApiKey = settings.FoundryApiKey;
-            Agent AIA = new Agent(prompt_str);
-            AIA.FoundryResource = fr;
-            AIA.Model = settings.FoundryModel;
-            AIA.WebSearchEnabled = true;
-            AIA.ReasoningEffortLevel = TimHanewich.Foundry.OpenAI.Responses.ReasoningEffortLevel.High;
-            AIA.InferenceRequested += OnThinking;
-            AIA.ExecutableFunctionInvoked += OnFunctionInvoked;
-            AIA.WebSearchInvoked += OnWebSearchInvoked;
-            AIA.WebSearchPageOpened += OnWebpageOpened;
+            Agent MIRA = new Agent(prompt_str);
+            MIRA.FoundryResource = fr;
+            MIRA.Model = settings.FoundryModel;
+            MIRA.WebSearchEnabled = true;
+            MIRA.ReasoningEffortLevel = TimHanewich.Foundry.OpenAI.Responses.ReasoningEffortLevel.High;
+            MIRA.InferenceRequested += OnThinking;
+            MIRA.ExecutableFunctionInvoked += OnFunctionInvoked;
+            MIRA.WebSearchInvoked += OnWebSearchInvoked;
+            MIRA.WebSearchPageOpened += OnWebpageOpened;
             
             //Register tools
-            AIA.Tools.Add(new Quote());
-            AIA.Tools.Add(new Buy(state));
-            AIA.Tools.Add(new Sell(state));
-            AIA.Tools.Add(new OpenJournal(state));                  //Get a list of journal entries on days
-            AIA.Tools.Add(new ReadJournal(state));                  //Open a particular day of journal logs
-            AIA.Tools.Add(new LogJournal(state));                   //Log to the investment journal
-            AIA.Tools.Add(new ReadEarningsCallTranscript());
-            AIA.Tools.Add(new GetCIK());                            //Get the SEC CIK for a company from the stock symbol
-            AIA.Tools.Add(new SearchFinancialData(bwm));            //Search available financial facts the company has previously reported
-            AIA.Tools.Add(new GetFinancialData(bwm));               //Get one of those financial facts
-            AIA.Tools.Add(new Calculate());                         //Math calculator
-            AIA.Tools.Add(new ViewPortfolio(state));                //Open portfolio
+            MIRA.Tools.Add(new Quote());
+            MIRA.Tools.Add(new Buy(state));
+            MIRA.Tools.Add(new Sell(state));
+            MIRA.Tools.Add(new OpenJournal(state));                  //Get a list of journal entries on days
+            MIRA.Tools.Add(new ReadJournal(state));                  //Open a particular day of journal logs
+            MIRA.Tools.Add(new LogJournal(state));                   //Log to the investment journal
+            MIRA.Tools.Add(new ReadEarningsCallTranscript());
+            MIRA.Tools.Add(new GetCIK());                            //Get the SEC CIK for a company from the stock symbol
+            MIRA.Tools.Add(new SearchFinancialData(bwm));            //Search available financial facts the company has previously reported
+            MIRA.Tools.Add(new GetFinancialData(bwm));               //Get one of those financial facts
+            MIRA.Tools.Add(new Calculate());                         //Math calculator
+            MIRA.Tools.Add(new ViewPortfolio(state));                //Open portfolio
 
             //If in guided mode (continuous chat with user), hijack in infinite loop now.
             if (mode == AgentMode.Assistant)
@@ -312,8 +312,8 @@ namespace AIA
                     if (input.ToLower().Trim() == "/save")
                     {
                         //Increment the state cumulative counters
-                        state.InputTokensConsumed = state.InputTokensConsumed + AIA.InputTokensConsumed;
-                        state.OutputTokensConsumed = state.OutputTokensConsumed + AIA.OutputTokensConsumed;
+                        state.InputTokensConsumed = state.InputTokensConsumed + MIRA.InputTokensConsumed;
+                        state.OutputTokensConsumed = state.OutputTokensConsumed + MIRA.OutputTokensConsumed;
 
                         //Save and close
                         AnsiConsole.Markup("Saving state... ");
@@ -325,12 +325,12 @@ namespace AIA
                     
                     //Prompt
                     Console.WriteLine();
-                    int InputTokensBefore = AIA.InputTokensConsumed;
-                    int OutputTokensBefore = AIA.OutputTokensConsumed;
+                    int InputTokensBefore = MIRA.InputTokensConsumed;
+                    int OutputTokensBefore = MIRA.OutputTokensConsumed;
                     string? cresponse = null;
                     try
                     {
-                        cresponse = await AIA.PromptAsync(input);
+                        cresponse = await MIRA.PromptAsync(input);
                     }
                     catch (Exception ex)
                     {
@@ -344,8 +344,8 @@ namespace AIA
                     }
 
                     //Print tokens consumption
-                    int InputTokensConsumed = AIA.InputTokensConsumed - InputTokensBefore;
-                    int OutputTokensConsumed = AIA.OutputTokensConsumed - OutputTokensBefore;
+                    int InputTokensConsumed = MIRA.InputTokensConsumed - InputTokensBefore;
+                    int OutputTokensConsumed = MIRA.OutputTokensConsumed - OutputTokensBefore;
                     AnsiConsole.MarkupLine("[gray][italic]Input tokens: " + InputTokensConsumed.ToString("#,##0") + ", Output Tokens: " + OutputTokensConsumed.ToString("#,##0") + "[/][/]");
                     
                     //new lines
@@ -365,7 +365,7 @@ namespace AIA
                 {
                     user_prompt = user_prompt + "\n\nUser-Specified custom instructions to follow: " + custom_instructions;
                 }
-                response = await AIA.PromptAsync(user_prompt);
+                response = await MIRA.PromptAsync(user_prompt);
             }
             catch (Exception ex)
             {
@@ -399,14 +399,14 @@ namespace AIA
             }
 
             //Increment counters
-            state.InputTokensConsumed = state.InputTokensConsumed + AIA.InputTokensConsumed;
-            state.OutputTokensConsumed = state.OutputTokensConsumed + AIA.OutputTokensConsumed;
+            state.InputTokensConsumed = state.InputTokensConsumed + MIRA.InputTokensConsumed;
+            state.OutputTokensConsumed = state.OutputTokensConsumed + MIRA.OutputTokensConsumed;
             
             //Stats
             TimeSpan AwakeFor = DateTimeOffset.UtcNow - WakeUpTime;
             TimeSpan InferenceTime = InferenceEnded - InferenceBegan;
-            float TokensPerMinute = Convert.ToSingle(AIA.InputTokensConsumed + AIA.OutputTokensConsumed) / Convert.ToSingle(InferenceTime.TotalMinutes);
-            AnsiConsole.MarkupLine("Ran for [bold]" + AwakeFor.TotalMinutes.ToString("#,##0.0") + " minutes[/], inference for [bold]" + InferenceTime.TotalMinutes.ToString("#,##0.0") + " minutes[/]: [bold]" + AIA.InputTokensConsumed.ToString("#,##0") + "[/] input tokens, [bold]" + AIA.OutputTokensConsumed.ToString("#,##0") + "[/] output tokens ([bold]" + TokensPerMinute.ToString("#,##0") + "[/] TPM)");
+            float TokensPerMinute = Convert.ToSingle(MIRA.InputTokensConsumed + MIRA.OutputTokensConsumed) / Convert.ToSingle(InferenceTime.TotalMinutes);
+            AnsiConsole.MarkupLine("Ran for [bold]" + AwakeFor.TotalMinutes.ToString("#,##0.0") + " minutes[/], inference for [bold]" + InferenceTime.TotalMinutes.ToString("#,##0.0") + " minutes[/]: [bold]" + MIRA.InputTokensConsumed.ToString("#,##0") + "[/] input tokens, [bold]" + MIRA.OutputTokensConsumed.ToString("#,##0") + "[/] output tokens ([bold]" + TokensPerMinute.ToString("#,##0") + "[/] TPM)");
 
             //Save state!
             AnsiConsole.Markup("Saving state to storage... ");

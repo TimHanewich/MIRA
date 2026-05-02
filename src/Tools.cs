@@ -1,7 +1,7 @@
 using System;
 using Spectre.Console;
 
-namespace AIA
+namespace MIRA
 {
     public class Tools
     {
@@ -9,7 +9,7 @@ namespace AIA
         {
             get
             {
-                string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AIA");
+                string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MIRA");
                 if (System.IO.Directory.Exists(path) == false)
                 {
                     System.IO.Directory.CreateDirectory(path);
@@ -50,7 +50,7 @@ namespace AIA
 
         public static string? AskForCustomInstructions()
         {
-            TextPrompt<string> question = new TextPrompt<string>("Custom Instructions for AIA: ");
+            TextPrompt<string> question = new TextPrompt<string>("Custom Instructions for MIRA: ");
             question.AllowEmpty = true;
             string CustomInstructions = AnsiConsole.Prompt(question);
             if (CustomInstructions == "")

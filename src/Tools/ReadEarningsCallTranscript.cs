@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using TheMotleyFool.Transcripts;
 using TimHanewich.AgentFramework;
 
-namespace AIA
+namespace MIRA
 {
     public class ReadEarningsCallTranscript : ExecutableFunction
     {

@@ -2,7 +2,7 @@ using System;
 using TheMotleyFool.Transcripts;
 using TimHanewich.Investing.Simulation;
 
-namespace AIA
+namespace MIRA
 {
     public class Prompt
     {
@@ -13,7 +13,7 @@ namespace AIA
             List<string> prompt = new List<string>();
 
             //Who it is
-            prompt.Add("You are AIA, Auto-Investing Agent. You are an autonomous investing agent that uses your knowledge of investing to profit.");
+            prompt.Add("You are MIRA, Market Intelligence & Research Agent. You are an autonomous investing agent that uses your knowledge of investing to profit.");
             prompt.Add("The current date and time is " + DateTimeOffset.Now.ToString() + ".");
             prompt.Add("");
 

@@ -5,7 +5,7 @@ using TimHanewich.AgentFramework;
 using TimHanewich.Foundry.OpenAI.Responses;
 using SecuritiesExchangeCommission.Edgar;
 
-namespace AIA
+namespace MIRA
 {
     public class GetCIK : ExecutableFunction
     {

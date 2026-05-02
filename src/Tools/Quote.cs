@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TimHanewich.AgentFramework;
 using TimHanewich.Foundry.OpenAI.Responses;
-using AIA.YFinanceServer;
+using MIRA.YFinanceServer;
 
-namespace AIA
+namespace MIRA
 {
     public class Quote : ExecutableFunction
     {
@@ -36,7 +36,7 @@ namespace AIA
             try
             {
                 YFinanceServerBridge yfsb = new YFinanceServerBridge();
-                AIA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
+                MIRA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
                 return JsonConvert.SerializeObject(quote, Formatting.Indented);
             }
             catch (Exception ex)

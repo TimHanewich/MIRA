@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TimHanewich.AgentFramework;
 using TimHanewich.Foundry.OpenAI.Responses;
-using AIA.YFinanceServer;
+using MIRA.YFinanceServer;
 
-namespace AIA
+namespace MIRA
 {
     public class Sell : ExecutableFunction
     {
@@ -61,7 +61,7 @@ namespace AIA
             try
             {
                 YFinanceServerBridge yfsb = new YFinanceServerBridge();
-                AIA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
+                MIRA.YFinanceServer.Quote quote = await yfsb.QuoteAsync(symbol);
                 UseState.Portfolio.Sell(symbol, quantity, quote.Price);
             }
             catch (Exception ex)

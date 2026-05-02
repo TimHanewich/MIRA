@@ -3,7 +3,7 @@ using TimHanewich.Investing.Simulation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace AIA
+namespace MIRA
 {
     public class State
     {
