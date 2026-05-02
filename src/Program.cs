@@ -22,15 +22,6 @@ namespace AIA
 
         public static async Task StartHereAsync()
         {
-            JObject args = new JObject();
-            args.Add("date", "5/1/2026");
-
-            ReadJournal rj = new ReadJournal(State.Load());
-            string ans = await rj.ExecuteAsync(args);
-            Console.WriteLine(ans);
-            Console.ReadLine();
-
-
             AnsiConsole.MarkupLine("[bold][underline]AIA: Auto Invest Agent[/][/]");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
