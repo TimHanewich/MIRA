@@ -48,21 +48,6 @@ namespace AIA
             prompt.Add("If you do log to your journal, be sure to elaborate on the thought process you went through, the news you read about via the web_search tool, how your interpreted it, the action you took, what you anticipate is going to happen, why you are bullish on your strategy, what the risks are, etc. Be verbose.");
             prompt.Add("");
 
-            //Add investment journal info
-            prompt.Add("These are your investment journal entries, notes you have taken on previous days about strategy and your thoughts as time goes on:");
-            if (Journal.Length == 0)
-            {
-                prompt.Add("(no journal entries made)");
-            }
-            else
-            {
-                foreach (JournalEntry je in Journal)
-                {
-                    prompt.Add("On " + je.EnteredAt.ToString() + ": " + je.Entry);
-                }
-            }
-            prompt.Add("");
-
             //Today's earnings call
             if (TranscriptPreviews != null)
             {
