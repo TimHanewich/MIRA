@@ -19,3 +19,7 @@
     - Add investment journal entry
 4. Agent can make up to 10 trades (buy/sell) or terminate by ending day early
 5. Goes to sleep
+
+## Renames
+- MIRA = Market Intelligence & Research Agent
+- ARIA = Autonomous Research & Investment Assistant
