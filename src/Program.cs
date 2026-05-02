@@ -30,6 +30,7 @@ namespace AIA
             SelectionPrompt<string> SelectToDo = new SelectionPrompt<string>();
             SelectToDo.AddChoice("Run AIA (timer)");
             SelectToDo.AddChoice("Wake up right now");
+            SelectToDo.AddChoice("Chat mode");
             SelectToDo.AddChoice("Review Portfolio");
             string selection = AnsiConsole.Prompt(SelectToDo);
 
@@ -41,6 +42,10 @@ namespace AIA
             else if (selection == "Wake up right now")
             {
                 await WakeAsync(Tools.AskForCustomInstructions());
+            }
+            else if (selection == "Chat mode")
+            {
+                await WakeAsync(mode: AgentMode.Assistant);
             }
             else if (selection == "Review Portfolio")
             {
@@ -348,7 +353,7 @@ namespace AIA
                     //Print
                     if (cresponse != null)
                     {
-                        AnsiConsole.MarkupLine("[blue]" + cresponse + "[/]");
+                        AnsiConsole.MarkupLine("[blue]" + Markup.Escape(cresponse) + "[/]");
                     }
                     Console.WriteLine();
                 }
