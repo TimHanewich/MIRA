@@ -340,6 +340,8 @@ namespace AIA
                     
                     //Prompt
                     Console.WriteLine();
+                    int InputTokensBefore = AIA.InputTokensConsumed;
+                    int OutputTokensBefore = AIA.OutputTokensConsumed;
                     string? cresponse = null;
                     try
                     {
@@ -355,6 +357,14 @@ namespace AIA
                     {
                         AnsiConsole.MarkupLine("[blue]" + Markup.Escape(cresponse) + "[/]");
                     }
+
+                    //Print tokens consumption
+                    int InputTokensConsumed = AIA.InputTokensConsumed - InputTokensBefore;
+                    int OutputTokensConsumed = AIA.OutputTokensConsumed - OutputTokensBefore;
+                    AnsiConsole.MarkupLine("[gray][italic]Input tokens: " + InputTokensConsumed.ToString("#,##0") + ", Output Tokens: " + OutputTokensConsumed.ToString("#,##0") + "[/][/]");
+                    
+                    //new lines
+                    Console.WriteLine();
                     Console.WriteLine();
                 }
             }
