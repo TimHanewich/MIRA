@@ -7,12 +7,10 @@ namespace AIA
 {
     public class Prompt
     {
-        public JournalEntry[] Journal {get; set;}
         public TranscriptPreview[] TranscriptPreviews {get; set;}
 
         public Prompt()
         {
-            Journal = null!;
             TranscriptPreviews = null!;
         }
 
