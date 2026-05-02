@@ -187,7 +187,7 @@ namespace AIA
             }
         }
 
-        public static async Task WakeAsync(string? custom_instructions = null)
+        public static async Task WakeAsync(string? custom_instructions = null, AgentMode mode = AgentMode.Autonomous)
         {
             WakeUp:
 
@@ -322,14 +322,10 @@ namespace AIA
             string? response = null;
             try
             {
-                string user_prompt;
+                string user_prompt = prompt.TradingPrompt().Trim();
                 if (custom_instructions != null)
                 {
-                    user_prompt = "Please proceed with you assigned duties with these additional instructions in mind: " + custom_instructions;
-                }
-                else
-                {
-                    user_prompt = "Please proceed with your assigned duties.";
+                    user_prompt = user_prompt + "\n\nUser-Specified custom instructions to follow: " + custom_instructions;
                 }
                 response = await AIA.PromptAsync(user_prompt);
             }
