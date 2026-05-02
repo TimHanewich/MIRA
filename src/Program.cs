@@ -263,7 +263,6 @@ namespace AIA
 
             //Construct prompt
             Prompt prompt = new Prompt();
-            prompt.TranscriptPreviews = previews;
             string prompt_str = prompt.SystemPrompt();
             
             //Create the agent

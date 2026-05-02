@@ -7,12 +7,6 @@ namespace AIA
 {
     public class Prompt
     {
-        public TranscriptPreview[] TranscriptPreviews {get; set;}
-
-        public Prompt()
-        {
-            TranscriptPreviews = null!;
-        }
 
         //The "Standard" prompt that is included all the time.
         public string SystemPrompt()
@@ -72,21 +66,6 @@ namespace AIA
             prompt.Add("Then use your `read_journal` tool to read a log (or possibly logs, plural) from your investment journal for that day.");
             prompt.Add("It is recommended to the few days prior leading up, or at least read back enough to get a decent idea of strategy to ensure continuity in your approach. But still, don't be afraid to switch strategies if you deem you should to pursue profitability.");
             prompt.Add("");
-
-            //Earnings Call
-            if (TranscriptPreviews != null)
-            {
-                prompt.Add("Earnings Calls Today");
-                prompt.Add("These are the Earnings Calls that happened today. If you wish, you can read the full transcript by requesting it via the 'read_earnings_call_transcript' tool.");
-                foreach (TranscriptPreview tp in TranscriptPreviews)
-                {
-                    if (tp.PostedDate.Year == DateTime.Now.Year && tp.PostedDate.Month == DateTime.Now.Month && tp.PostedDate.Day == DateTime.Now.Day)
-                    {
-                        prompt.Add("- " + tp.Title + " (" + tp.Url + ")");
-                    }
-                }
-                prompt.Add("");
-            }
 
             //Suggested strategies
             prompt.Add("Some good ideas you may want to use:");
