@@ -305,8 +305,18 @@ namespace AIA
                     string? input = null;
                     while (input == null || input == "")
                     {
-                        Console.Write("> ");
+                        AnsiConsole.Markup("[gray]\"/save\" to close[/] [bold]>[/] ");
                         input = Console.ReadLine();
+                    }
+                    
+                    //if /save
+                    if (input.ToLower().Trim() == "/save")
+                    {
+                        AnsiConsole.Markup("Saving state... ");
+                        state.Save();
+                        AnsiConsole.MarkupLine("done");
+                        AnsiConsole.MarkupLine("Bye!");
+                        return;
                     }
                     
                     //Prompt
