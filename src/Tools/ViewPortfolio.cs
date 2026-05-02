@@ -1,7 +1,6 @@
 using System;
 using TimHanewich.AgentFramework;
 using Newtonsoft.Json.Linq;
-using AIA.Portfolio;
 
 namespace AIA
 {

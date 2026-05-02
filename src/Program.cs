@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using SecuritiesExchangeCommission.Edgar.Data;
 using SecuritiesExchangeCommission.Edgar;
 using AIA.YFinanceServer;
-using AIA.Portfolio;
 
 namespace AIA
 {

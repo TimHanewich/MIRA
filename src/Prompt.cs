@@ -1,7 +1,6 @@
 using System;
 using TheMotleyFool.Transcripts;
 using TimHanewich.Investing.Simulation;
-using AIA.Portfolio;
 
 namespace AIA
 {
