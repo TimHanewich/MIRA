@@ -11,41 +11,61 @@ namespace AIA
         public ReadJournal(State use_state)
         {
             Name = "read_journal";
-            Description = "Open your investment journal to review a list of past entries that can then be read.";
+            Description = "Read investment log(s) from a particular day.";
 
             UseState = use_state;
         }
 
         public override async Task<string> ExecuteAsync(JObject? arguments = null)
         {
-            //Check if there are entries
-            if (UseState.InvestmentJournal.Count == 0)
+            if (arguments == null)
             {
-                return "Your investment journal is empty. No entries have been logged yet.";
+                return "Must provide arguments.";
             }
 
-            //Sort journal entries
-            UseState.InvestmentJournal = UseState.InvestmentJournal.OrderBy(j => j.EnteredAt).ToList();
+            //Get date
+            JProperty? prop_date = arguments.Property("date");
+            if (prop_date == null)
+            {
+                return "Must provide argument 'date'";
+            }
+            string datestr = prop_date.Value.ToString();
 
-            //Make list of dates
-            List<string> dates = new List<string>();
+            //try parsing
+            DateTime date;
+            try
+            {
+                date = DateTime.Parse(datestr);
+            }
+            catch
+            {
+                return "Unable to parse '" + datestr + "' into a DateTime.";
+            }
+
+            //Get logs
+            List<JournalEntry> LogsToReturn = new List<JournalEntry>();
             foreach (JournalEntry je in UseState.InvestmentJournal)
             {
-                string ThisDate = je.EnteredAt.Month.ToString() + "/" + je.EnteredAt.Day.ToString() + "/" + je.EnteredAt.Year.ToString();
-                if (dates.Contains(ThisDate) == false)
+                if (je.EnteredAt.Year == date.Year && je.EnteredAt.Month == date.Month && je.EnteredAt.Day == date.Day)
                 {
-                    dates.Add(ThisDate);
+                    LogsToReturn.Add(je);
                 }
             }
 
-            //Compile entries
-            string toreturn = "Your investment journal has entries from the following days:\n";
-            foreach (string date in dates)
+            //Put into string
+            if (LogsToReturn.Count == 0)
             {
-                toreturn = toreturn + date + "\n";
+                return "No logs found for " + date.ToShortDateString();
             }
-
-            return toreturn.Trim();
+            else
+            {
+                string ToReturn = "";
+                foreach (JournalEntry je in LogsToReturn)
+                {
+                    ToReturn = ToReturn + "## Journal Entry from " + je.EnteredAt.ToString() + ": " + "\n" + je.Entry + "\n\n\n";
+                }   
+                return ToReturn.Trim();
+            }
         }
     }
 }
