@@ -70,12 +70,8 @@ namespace AIA
             prompt.Add("If you do log to your journal, be sure to elaborate on the thought process you went through, the news you read about via the web_search tool, how your interpreted it, the action you took, what you anticipate is going to happen, why you are bullish on your strategy, what the risks are, etc. Be verbose.");
             prompt.Add("");
 
-            //Add state
-            prompt.Add("This is your current portfolio dashboard:");
-            prompt.Add(PortfolioDasboard.Print());
-            prompt.Add("");
-
             //Portfolio is there because you picked it
+            prompt.Add("You have an investment portfolio that you are responsible for. Use your tool `view_portfolio` to view it and its holdings and performance.");
             prompt.Add("That portfolio was handpicked by YOU. You assembled it. You may not remember it, but you did.");
             prompt.Add("It is very important for you to review your investment journal to familiarize yourself with the thought process/strategy you were following previously.");
             prompt.Add("Before you do any research or make any trades, use your `open_journal` tool to get a list of days that have investment journal logs.");

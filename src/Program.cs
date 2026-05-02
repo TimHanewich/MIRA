@@ -320,6 +320,7 @@ namespace AIA
             AIA.Tools.Add(new SearchFinancialData(bwm));            //Search available financial facts the company has previously reported
             AIA.Tools.Add(new GetFinancialData(bwm));               //Get one of those financial facts
             AIA.Tools.Add(new Calculate());                         //Math calculator
+            AIA.Tools.Add(new ViewPortfolio(state));                //Open portfolio
 
             //If in guided mode (continuous chat with user), hijack in infinite loop now.
             if (mode == AgentMode.Assistant)
