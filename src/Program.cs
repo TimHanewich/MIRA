@@ -116,7 +116,12 @@ namespace AIA
                 //Print table
                 AnsiConsole.MarkupLine("[underline]Holdings[/]");
                 AnsiConsole.Write(t);
-                
+                Console.WriteLine();
+
+                //Print consumption metrics
+                AnsiConsole.MarkupLine("[underline][gray]Cumulative Consumption[/][/]");
+                AnsiConsole.MarkupLine("[gray]Input Tokens: " + state.InputTokensConsumed.ToString("#,##0") + "[/]");
+                AnsiConsole.MarkupLine("[gray]Output Tokens: " + state.InputTokensConsumed.ToString("#,##0") + "[/]");
             }
             else
             {
