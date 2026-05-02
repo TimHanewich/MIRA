@@ -54,7 +54,7 @@ namespace AIA
             prompt.Add("Before you do any research or make any trades, use your `open_journal` tool to get a list of days that have investment journal logs.");
             prompt.Add("Then use your `read_journal` tool to read a log (or possibly logs, plural) from your investment journal for that day.");
             prompt.Add("It is recommended to the few days prior leading up, or at least read back enough to get a decent idea of strategy to ensure continuity in your approach. But still, don't be afraid to switch strategies if you deem you should to pursue profitability.");
-            prompt.Add();
+            prompt.Add("");
 
             //Earnings Call
             if (TranscriptPreviews != null)
