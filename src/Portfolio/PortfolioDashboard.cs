@@ -20,6 +20,9 @@ namespace AIA.Portfolio
         {
             PortfolioDashboard ToReturn = new PortfolioDashboard();
 
+            //Current cash balance
+            ToReturn.CashBalance = portfolio.Cash;
+
             //Sum how much cash was injected (deposited)
             foreach (CashTransaction ct in portfolio.CashTransactionLog)
             {
