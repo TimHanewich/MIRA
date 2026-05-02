@@ -117,12 +117,12 @@ namespace AIA.Portfolio
             ToReturn = ToReturn + "\n\n";
 
             //Table
-            ToReturn = ToReturn + "|Symbol|Current Price|Day Change Percent|Position Value|Position Cost Basis|Unrealized Gain/Loss|Unrealized Gain/Loss %|";
-            ToReturn = ToReturn + "\n" + "|-|-|-|-|-|-|-|";
+            ToReturn = ToReturn + "|Symbol|Current Price|Day Change Percent|Quantity Owned|Position Value|Position Cost Basis|Unrealized Gain/Loss|Unrealized Gain/Loss %|";
+            ToReturn = ToReturn + "\n" + "|-|-|-|-|-|-|-|-|";
             PortfolioHolding[] sorted = Holdings.OrderByDescending(h => h.UnrealizedGainLoss).ToArray();
             foreach (PortfolioHolding ph in sorted)
             {
-                ToReturn = ToReturn + "\n" + "|" + ph.Symbol + "|$" + ph.CurrentPrice.ToString("#,##0.00") + "|" + ph.DayChangePercent.ToString("#,##0.0") + "%|$" + ph.PositionValue.ToString("#,##0.00") + "|$" + ph.TotalCostBasis.ToString("#,##0.00") + "|$" + ph.UnrealizedGainLoss.ToString("#,##0.00") + "|" + ph.UnrealizedGainLossPercent.ToString("#,##0.0") + "%|";
+                ToReturn = ToReturn + "\n" + "|" + ph.Symbol + "|$" + ph.CurrentPrice.ToString("#,##0.00") + "|" + ph.DayChangePercent.ToString("#,##0.0") + "%|" + ph.QuantityOwned.ToString("#,##0") + "|$" + ph.PositionValue.ToString("#,##0.00") + "|$" + ph.TotalCostBasis.ToString("#,##0.00") + "|$" + ph.UnrealizedGainLoss.ToString("#,##0.00") + "|" + ph.UnrealizedGainLossPercent.ToString("#,##0.0") + "%|";
             }
             ToReturn = ToReturn + "\n\n";
 
