@@ -41,11 +41,11 @@ namespace AIA
             }
             else if (selection == "Run AIA Now: Autonomous Mode")
             {
-                await WakeAsync(Tools.AskForCustomInstructions());
+                await WakeAsync(AgentMode.Autonomous, Tools.AskForCustomInstructions());
             }
             else if (selection == "Run AIA Now: Assistant Mode")
             {
-                await WakeAsync(mode: AgentMode.Assistant);
+                await WakeAsync(AgentMode.Assistant);
             }
             else if (selection == "Review Portfolio")
             {
@@ -188,11 +188,11 @@ namespace AIA
                 }
 
                 //Wake!
-                await WakeAsync(CustInstr);
+                await WakeAsync(AgentMode.Autonomous, CustInstr);
             }
         }
 
-        public static async Task WakeAsync(string? custom_instructions = null, AgentMode mode = AgentMode.Autonomous)
+        public static async Task WakeAsync(AgentMode mode, string? custom_instructions = null)
         {
             WakeUp:
 
