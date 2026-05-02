@@ -312,6 +312,11 @@ namespace AIA
                     //if /save
                     if (input.ToLower().Trim() == "/save")
                     {
+                        //Increment the state cumulative counters
+                        state.InputTokensConsumed = state.InputTokensConsumed + AIA.InputTokensConsumed;
+                        state.OutputTokensConsumed = state.OutputTokensConsumed + AIA.OutputTokensConsumed;
+
+                        //Save and close
                         AnsiConsole.Markup("Saving state... ");
                         state.Save();
                         AnsiConsole.MarkupLine("done");
