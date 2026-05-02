@@ -39,7 +39,7 @@ namespace AIA
             return ToReturn.Trim();
         }
 
-        //The additional instructions to perform trades with a goal
+        //The additional instructions to perform trades with a goal (focused on AUTONOMOUS investment)
         //This is used as the user prompt.
         public string TradingPrompt()
         {
@@ -51,20 +51,19 @@ namespace AIA
             prompt.Add("You are welcome to develop your own strategies in markets, industries, or sectors that you feel present opportunity.");
             prompt.Add("");
 
-            //Log
+            //Read investment journal
+            prompt.Add("It is very important for you to review your investment journal to familiarize yourself with the thought process/strategy you were following previously.");
+            prompt.Add("That portfolio was handpicked by YOU. You assembled it. You may not remember it and why, but you did.");
+            prompt.Add("Before you do any research or make any trades, use your `open_journal` tool to get a list of days that have investment journal logs.");
+            prompt.Add("Then use your `read_journal` tool to read a log (or possibly logs, plural) from your investment journal for that day.");
+            prompt.Add("It is recommended to the few days prior leading up, or at least read back enough to get a decent idea of strategy to ensure continuity in your approach. But still, don't be afraid to switch strategies if you deem you should to pursue profitability.");
+            prompt.Add("");
+
+            //Log to investment journal when done
             prompt.Add("After you complete all the trades you want to, it is important to log to your investment journal via the 'log_journal' tool.");
             prompt.Add("This journal will serve to remind you of the thoughts you had when you placed these trades and the broader strategy.");
             prompt.Add("You have memory loss so expect to NOT have context of your strategy next time you see this again, so logging it to your journal is quite important.");
             prompt.Add("If you do log to your journal, be sure to elaborate on the thought process you went through, the news you read about via the web_search tool, how your interpreted it, the action you took, what you anticipate is going to happen, why you are bullish on your strategy, what the risks are, etc. Be verbose.");
-            prompt.Add("");
-
-            //Portfolio is there because you picked it
-            prompt.Add("You have an investment portfolio that you are responsible for. Use your tool `view_portfolio` to view it and its holdings and performance.");
-            prompt.Add("That portfolio was handpicked by YOU. You assembled it. You may not remember it, but you did.");
-            prompt.Add("It is very important for you to review your investment journal to familiarize yourself with the thought process/strategy you were following previously.");
-            prompt.Add("Before you do any research or make any trades, use your `open_journal` tool to get a list of days that have investment journal logs.");
-            prompt.Add("Then use your `read_journal` tool to read a log (or possibly logs, plural) from your investment journal for that day.");
-            prompt.Add("It is recommended to the few days prior leading up, or at least read back enough to get a decent idea of strategy to ensure continuity in your approach. But still, don't be afraid to switch strategies if you deem you should to pursue profitability.");
             prompt.Add("");
 
             //Suggested strategies
