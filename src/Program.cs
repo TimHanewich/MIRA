@@ -35,10 +35,10 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
 
             Console.WriteLine(); //blank line
             AnsiConsole.Write(Align.Center(new Markup("[green]" + asciiart + "[/]")));
-            AnsiConsole.Write(Align.Center(new Markup("[bold][green]MIRA: Market Intelligence & Research Agent[/][/]")));
+            AnsiConsole.Write(Align.Center(new Markup("[green][bold]MIRA[/]: [bold]M[/]arket [bold]I[/]ntelligence & [bold]R[/]esearch [bold]A[/]gent[/]")));
             AnsiConsole.Write(Align.Center(new Markup("[green]github.com/TimHanewich/MIRA[/]")));
             Console.WriteLine(); //blank line
-
+            Console.WriteLine(); //blank line
 
             //Info
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
