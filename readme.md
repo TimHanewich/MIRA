@@ -18,17 +18,38 @@ This makes the project part **agent framework experiment**, part **autonomous re
 
 ## What MIRA actually does
 
-MIRA maintains a **persistent simulated investment portfolio** and a **persistent investment journal** on disk. When it runs, it can:
+The best way to understand MIRA is by looking at the **tools it has available to it**.
 
-- inspect current holdings and available cash,
-- pull live-ish quotes through a local `yfinance`-backed quote server,
-- search the web for company and market news,
-- resolve SEC CIKs from ticker symbols,
-- search and read historical SEC XBRL financial facts,
-- read Motley Fool earnings call transcripts,
-- calculate position sizing or return scenarios,
-- buy and sell securities inside the simulated portfolio,
-- and save its updated state for the next session.
+MIRA is not just prompted to "analyze stocks" in the abstract. It is given a concrete toolset it can use to inspect its portfolio, gather information, make simulated trades, and record its reasoning.
+
+### Portfolio and trading tools
+- `view_portfolio` — opens the current simulated portfolio, including holdings, values, and cash balance
+- `quote` — gets the latest quote and daily move for a symbol
+- `buy` — buys shares inside the simulated portfolio
+- `sell` — sells shares inside the simulated portfolio
+
+### Memory and continuity tools
+- `open_journal` — lists the dates for which prior journal entries exist
+- `read_journal` — reads journal entries from a selected day
+- `log_journal` — writes a new investment journal entry so the agent can explain its thinking to its future self
+
+### Research tools
+- built-in `web_search` — searches the web for current company, sector, and market information
+- `read_earnings_call_transcript` — reads earnings call transcripts from Motley Fool transcript URLs
+- `get_cik` — resolves a stock ticker to the company's SEC CIK
+- `search_financial_data` — searches available SEC XBRL facts for a company
+- `get_financial_data` — retrieves historical datapoints for a specific reported SEC fact
+
+### Utility tools
+- `calculate` — evaluates math expressions for sizing, comparison, and quick analysis
+
+So in practice, MIRA can do a full operating loop:
+
+- inspect its current portfolio,
+- recover prior context from its journal,
+- research companies through the web, transcripts, and SEC data,
+- make simulated buy/sell decisions,
+- and then document the strategy it used before shutting down.
 
 On a brand-new portfolio, it seeds itself with **$100,000** of starting cash and begins from there.
 
