@@ -21,6 +21,8 @@ namespace MIRA
 
         public static async Task StartHereAsync()
         {
+            //Set console tab name
+            Console.Title = "💸 MIRA";
 
             string asciiart = @"
 $$\      $$\       $$$$$$\       $$$$$$$\         $$$$$$\  
