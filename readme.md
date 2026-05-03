@@ -20,25 +20,25 @@ This makes the project part **agent framework experiment**, part **autonomous re
 MIRA is given a toolset it can use to inspect its portfolio, gather information, make simulated trades, and record its reasoning.
 
 ### Portfolio and trading tools
-- `view_portfolio` — opens the current simulated portfolio, including holdings, values, and cash balance
-- `quote` — gets the latest quote and daily move for a symbol
-- `buy` — buys shares inside the simulated portfolio
-- `sell` — sells shares inside the simulated portfolio
+- `view_portfolio`: opens the current simulated portfolio, including holdings, values, and cash balance
+- `quote`: gets the latest quote and daily move for a symbol
+- `buy`: buys shares inside the simulated portfolio
+- `sell`: sells shares inside the simulated portfolio
 
 ### Memory and continuity tools
-- `open_journal` — lists the dates for which prior journal entries exist
-- `read_journal` — reads journal entries from a selected day
-- `log_journal` — writes a new investment journal entry so the agent can explain its thinking to its future self
+- `open_journal`: lists the dates for which prior journal entries exist
+- `read_journal`: reads journal entries from a selected day
+- `log_journal`: writes a new investment journal entry so the agent can explain its thinking to its future self
 
 ### Research tools
-- built-in `web_search` — searches the web for current company, sector, and market information
-- `read_earnings_call_transcript` — reads earnings call transcripts from Motley Fool transcript URLs
-- `get_cik` — resolves a stock ticker to the company's SEC CIK
-- `search_financial_data` — searches available SEC XBRL facts for a company
-- `get_financial_data` — retrieves historical datapoints for a specific reported SEC fact
+- built-in `web_search`: searches the web for current company, sector, and market information
+- `read_earnings_call_transcript`: reads earnings call transcripts from Motley Fool transcript URLs
+- `get_cik`: resolves a stock ticker to the company's SEC CIK
+- `search_financial_data`: searches available SEC XBRL facts for a company
+- `get_financial_data`: retrieves historical datapoints for a specific reported SEC fact
 
 ### Utility tools
-- `calculate` — evaluates math expressions for sizing, comparison, and quick analysis
+- `calculate`: evaluates math expressions for sizing, comparison, and quick analysis
 
 ## Why this project is interesting
 
