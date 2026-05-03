@@ -227,7 +227,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
 
             //Validate settings
             AnsiConsole.Markup("Validating settings... ");
-            if (settings.FoundryEndpoint != null && settings.FoundryApiKey != null && settings.FoundryApiKey != null)
+            if (settings.IsDefault() == false)
             {
                 AnsiConsole.MarkupLine("[green]validated[/]");
             }

@@ -21,7 +21,7 @@ namespace MIRA
         public bool IsDefault()
         {
             MIRASettings ToCompareTo = new MIRASettings();
-            return FoundryEndpoint == ToCompareTo.FoundryEndpoint || FoundryApiKey == ToCompareTo.FoundryEndpoint || FoundryModel == ToCompareTo.FoundryEndpoint;
+            return FoundryEndpoint == ToCompareTo.FoundryEndpoint || FoundryApiKey == ToCompareTo.FoundryEndpoint || FoundryModel == ToCompareTo.FoundryModel;
         }
 
         public static string SavePath
