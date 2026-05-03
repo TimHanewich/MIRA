@@ -28,7 +28,11 @@ namespace MIRA
                     return loaded;
                 }
             }
-            return new MIRASettings();
+
+            //A local one did not load, so create a new one but also save to folder
+            MIRASettings NewToReturn = new MIRASettings();
+            NewToReturn.Save();
+            return NewToReturn;
         }
 
         public void Save()
