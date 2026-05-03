@@ -31,7 +31,7 @@ MIRA is given a toolset it can use to inspect its portfolio, gather information,
 
 ### Research tools
 - `web_search` (*built in*): searches the web for current company, sector, and market information
-- `read_earnings_call_transcript`: reads earnings call transcripts from Motley Fool transcript URLs
+- `read_earnings_call_transcript`: reads earnings call transcripts
 - `get_cik`: resolves a stock ticker to the company's SEC CIK
 - `search_financial_data`: searches available SEC XBRL facts for a company
 - `get_financial_data`: retrieves historical datapoints for a specific reported SEC fact
