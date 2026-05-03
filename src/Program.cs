@@ -21,7 +21,21 @@ namespace MIRA
 
         public static async Task StartHereAsync()
         {
-            AnsiConsole.MarkupLine("[bold][underline]MIRA: Market Intelligence & Research Agent[/][/]");
+
+            string asciiart = @"
+$$\      $$\       $$$$$$\       $$$$$$$\         $$$$$$\  
+$$$\    $$$ |      \_$$  _|      $$  __$$\       $$  __$$\ 
+$$$$\  $$$$ |        $$ |        $$ |  $$ |      $$ /  $$ |
+$$\$$\$$ $$ |        $$ |        $$$$$$$  |      $$$$$$$$ |
+$$ \$$$  $$ |        $$ |        $$  __$$<       $$  __$$ |
+$$ |\$  /$$ |        $$ |        $$ |  $$ |      $$ |  $$ |
+$$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
+\__|     \__|      \______|      \__|  \__|      \__|  \__|  
+            ";
+
+            AnsiConsole.MarkupLine("[green]" + asciiart + "[/]");
+
+            AnsiConsole.MarkupLine("[bold][underline][green]MIRA: Market Intelligence & Research Agent[/][/][/]");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
             //Ask what to do
