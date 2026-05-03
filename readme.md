@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo/mira.svg" alt="MIRA logo" width="180" />
+  <img src="mira.svg" alt="MIRA logo" width="180" />
 </p>
 
 # MIRA: Market Intelligence & Research Agent
