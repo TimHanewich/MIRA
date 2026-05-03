@@ -33,9 +33,14 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
 \__|     \__|      \______|      \__|  \__|      \__|  \__|  
             ";
 
-            AnsiConsole.MarkupLine("[green]" + asciiart + "[/]");
+            Console.WriteLine(); //blank line
+            AnsiConsole.Write(Align.Center(new Markup("[green]" + asciiart + "[/]")));
+            AnsiConsole.Write(Align.Center(new Markup("[bold][green]MIRA: Market Intelligence & Research Agent[/][/]")));
+            AnsiConsole.Write(Align.Center(new Markup("[green]github.com/TimHanewich/MIRA[/]")));
+            Console.WriteLine(); //blank line
 
-            AnsiConsole.MarkupLine("[bold][underline][green]MIRA: Market Intelligence & Research Agent[/][/][/]");
+
+            //Info
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
             //Ask what to do
