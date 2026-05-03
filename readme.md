@@ -9,14 +9,11 @@ Mira is an autonomous investing research agent that researches the market, devel
 
 Instead of being a market chatbot, MIRA behaves more like a small autonomous analyst:
 
-1. it wakes up with a portfolio to manage,
-2. reviews its prior journal entries to recover context,
-3. researches companies and market developments,
-4. reads earnings call transcripts and SEC financial facts,
-5. makes simulated buy/sell decisions,
-6. and logs its strategy before going back to sleep.
-
-This makes the project part **agent framework experiment**, part **autonomous research loop**, and part **paper-trading portfolio manager**.
+1. **Wake**: wakes up with a portfolio to manage,
+2. **Context**: reviews its prior journal entries to recover context
+3. **Researches**: researches market developments, earnings call transcripts, financials, etc.
+4. **Trades**: makes simulated buy/sell decisions
+5. **Saves**: logs its strategy reasoning, saves state, goes back to sleep.
 
 ## MIRA's Tools
 MIRA is given a toolset it can use to inspect its portfolio, gather information, make simulated trades, and record its reasoning.
