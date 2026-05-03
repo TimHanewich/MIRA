@@ -233,7 +233,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             }
             else
             {
-                AnsiConsole.MarkupLine("[red]Settings arent filled in![/]");
+                AnsiConsole.MarkupLine("[red]Settings values are not provided. Please update settings information at " + MIRASettings.SavePath + " and then run again.[/]");
                 return;
             }
 
