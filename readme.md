@@ -16,11 +16,8 @@ Instead of being a market chatbot, MIRA behaves more like a small autonomous ana
 
 This makes the project part **agent framework experiment**, part **autonomous research loop**, and part **paper-trading portfolio manager**.
 
-## What MIRA actually does
-
-The best way to understand MIRA is by looking at the **tools it has available to it**.
-
-MIRA is not just prompted to "analyze stocks" in the abstract. It is given a concrete toolset it can use to inspect its portfolio, gather information, make simulated trades, and record its reasoning.
+## MIRA's Tools
+MIRA is given a toolset it can use to inspect its portfolio, gather information, make simulated trades, and record its reasoning.
 
 ### Portfolio and trading tools
 - `view_portfolio` — opens the current simulated portfolio, including holdings, values, and cash balance
@@ -42,16 +39,6 @@ MIRA is not just prompted to "analyze stocks" in the abstract. It is given a con
 
 ### Utility tools
 - `calculate` — evaluates math expressions for sizing, comparison, and quick analysis
-
-So in practice, MIRA can do a full operating loop:
-
-- inspect its current portfolio,
-- recover prior context from its journal,
-- research companies through the web, transcripts, and SEC data,
-- make simulated buy/sell decisions,
-- and then document the strategy it used before shutting down.
-
-On a brand-new portfolio, it seeds itself with **$100,000** of starting cash and begins from there.
 
 ## Why this project is interesting
 
