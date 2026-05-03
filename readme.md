@@ -2,23 +2,17 @@
   <img src="logo/mira.svg" alt="MIRA logo" width="180" />
 </p>
 
-# MIRA
-## Market Intelligence & Research Agent
-
-> An autonomous investing research agent that researches the market, manages a persistent paper portfolio, and writes down its own reasoning for next time.
-
-**AutoInvestAI** is the repository. **MIRA** is the agent.
-
-MIRA is a C#/.NET console application that explores a simple but compelling idea: what happens when an LLM is given not just a prompt, but a portfolio, tools, a journal, and a recurring job to do?
+# MIRA: Market Intelligence & Research Agent
+Mira is an autonomous investing research agent that researches the market, develops investing and trading strategies and manages a persistent paper portfolio.
 
 Instead of being a market chatbot, MIRA behaves more like a small autonomous analyst:
 
-- it wakes up with a portfolio to manage,
-- reviews its prior journal entries to recover context,
-- researches companies and market developments,
-- reads earnings call transcripts and SEC financial facts,
-- makes simulated buy/sell decisions,
-- and logs its strategy before going back to sleep.
+1. it wakes up with a portfolio to manage,
+2. reviews its prior journal entries to recover context,
+3. researches companies and market developments,
+4. reads earnings call transcripts and SEC financial facts,
+5. makes simulated buy/sell decisions,
+6. and logs its strategy before going back to sleep.
 
 This makes the project part **agent framework experiment**, part **autonomous research loop**, and part **paper-trading portfolio manager**.
 
