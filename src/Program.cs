@@ -41,6 +41,8 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             Console.WriteLine(); //blank line
 
             //Info
+            AnsiConsole.MarkupLine("[bold][underline]Welcome to MIRA![/][/]");
+            AnsiConsole.WriteLine("MIRA is an autonomous investing research agent that researches the market, develops strategies, and manages a persistent paper portfolio.");
             AnsiConsole.MarkupLine("Config Dir: " + Tools.ConfigDirectoryPath);
             
             //Ask what to do
