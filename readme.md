@@ -5,6 +5,8 @@
 # MIRA: Market Intelligence & Research Agent
 Mira is an autonomous investing research agent that researches the market, develops investing and trading strategies and manages a persistent paper portfolio.
 
+![process](https://i.imgur.com/yD8cUjw.png)
+
 Instead of being a market chatbot, MIRA behaves more like a small autonomous analyst:
 
 1. it wakes up with a portfolio to manage,
