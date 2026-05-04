@@ -41,9 +41,10 @@ namespace MIRA
                 next3Pm = next3Pm.AddDays(1);
             }
 
-            // 5. Convert back to DateTimeOffset to get the correct UTC offset for that date
-            // This handles the switch between EST and EDT automatically
-            DateTimeOffset result = TimeZoneInfo.ConvertTime(new DateTimeOffset(next3Pm), easternZone);
+            // 5. Convert to DateTimeOffset using the correct Eastern Time UTC offset for that date
+            // GetUtcOffset handles the switch between EST and EDT automatically
+            TimeSpan easternOffset = easternZone.GetUtcOffset(next3Pm);
+            DateTimeOffset result = new DateTimeOffset(next3Pm, easternOffset);
 
             return result;
         }
