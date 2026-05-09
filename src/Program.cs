@@ -427,7 +427,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             //(some days wont, like weekends)
             //I'd like to then prompt  with the SelectionPrompt of all the days.
             //When a user selects one, it then prints the trades made that day in a table and then down below prints down the journal entry for that day (if either exist!)
-            //And then it goes back to the selection prompt of selecting another day.
+            //And then it goes back to the selection prompt of selecting another day
         }
 
 
