@@ -228,29 +228,6 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             MIRASettings settings = MIRASettings.Load();
             AnsiConsole.MarkupLine("[green]loaded[/]");
 
-            //Validate settings
-            AnsiConsole.Markup("Validating settings... ");
-            if (settings.IsDefault() == false)
-            {
-                AnsiConsole.MarkupLine("[green]validated[/]");
-            }
-            else
-            {
-                AnsiConsole.MarkupLine("[red]Settings values are not provided. Please update settings information at " + MIRASettings.SavePath + " and then run again.[/]");
-                return;
-            }
-
-            //Validate YFinanceServerBridge
-            YFinanceServerBridge yfsb = new YFinanceServerBridge();
-            AnsiConsole.Markup("Confirming YFinance-Server online... ");
-            bool online = await yfsb.AliveAsync();
-            AnsiConsole.MarkupLine("[green]complete[/]");
-            if (online == false)
-            {
-                AnsiConsole.MarkupLine("[red]yfinance-server is not online. This is needed for stock quotes. Please start this and try again.[/]");
-                return;
-            }
-
             //Set up SEC EDGAR
             AnsiConsole.Markup("Setting up SEC EDGAR infa... ");
             IdentificationManager.Instance.AppName = "MIRA";
