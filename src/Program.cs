@@ -422,12 +422,109 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             AnsiConsole.MarkupLine("[gray]Input Tokens: " + state.InputTokensConsumed.ToString("#,##0") + "[/]");
             AnsiConsole.MarkupLine("[gray]Output Tokens: " + state.OutputTokensConsumed.ToString("#,##0") + "[/]");
 
-            //I'd like to then prompt the user with a SelectionPrompt of all the days that there has been activity on so far.
-            //To do this I think I will have to loop through all of the previous trades AND JournalEntries. Get a list of dates that have either trades or just a journal entry
-            //(some days wont, like weekends)
-            //I'd like to then prompt  with the SelectionPrompt of all the days.
-            //When a user selects one, it then prints the trades made that day in a table and then down below prints down the journal entry for that day (if either exist!)
-            //And then it goes back to the selection prompt of selecting another day
+            // Collect all unique dates with activity (trades or journal entries)
+            HashSet<DateTime> activityDates = new HashSet<DateTime>();
+            foreach (HoldingTransaction ht in state.Portfolio.HoldingTransactionLog)
+            {
+                activityDates.Add(ht.TransactedAt.LocalDateTime.Date);
+            }
+            foreach (JournalEntry je in state.InvestmentJournal)
+            {
+                activityDates.Add(je.EnteredAt.LocalDateTime.Date);
+            }
+
+            if (activityDates.Count == 0)
+            {
+                Console.WriteLine();
+                AnsiConsole.MarkupLine("[gray]No activity history to review.[/]");
+                return;
+            }
+
+            // Sort dates descending (most recent first)
+            List<DateTime> sortedDates = activityDates.OrderByDescending(d => d).ToList();
+
+            // Day-by-day review loop
+            while (true)
+            {
+                Console.WriteLine();
+                SelectionPrompt<string> daySelect = new SelectionPrompt<string>();
+                daySelect.Title = "[underline]Activity History[/] - Select a day to review:";
+                daySelect.AddChoice("← Back");
+                foreach (DateTime d in sortedDates)
+                {
+                    daySelect.AddChoice(d.ToString("yyyy-MM-dd (dddd)"));
+                }
+                string daySelection = AnsiConsole.Prompt(daySelect);
+
+                if (daySelection == "← Back")
+                {
+                    break;
+                }
+
+                // Parse selected date
+                DateTime selectedDate = DateTime.ParseExact(daySelection.Substring(0, 10), "yyyy-MM-dd", null);
+                Console.WriteLine();
+                AnsiConsole.MarkupLine("[bold][underline][blue]" + selectedDate.ToString("MMMM d, yyyy (dddd)") + "[/][/][/]");
+
+                // Trades for this day
+                HoldingTransaction[] dayTrades = state.Portfolio.HoldingTransactionLog
+                    .Where(ht => ht.TransactedAt.LocalDateTime.Date == selectedDate)
+                    .OrderBy(ht => ht.TransactedAt)
+                    .ToArray();
+
+                if (dayTrades.Length > 0)
+                {
+                    Console.WriteLine();
+                    AnsiConsole.MarkupLine("[underline]Trades[/]");
+                    Table tradesTable = new Table();
+                    tradesTable.AddColumn("Time");
+                    tradesTable.AddColumn("Action");
+                    tradesTable.AddColumn("Symbol");
+                    tradesTable.AddColumn("Shares");
+                    tradesTable.AddColumn("Price");
+                    tradesTable.AddColumn("Total");
+
+                    foreach (HoldingTransaction ht in dayTrades)
+                    {
+                        string time = ht.TransactedAt.LocalDateTime.ToString("h:mm tt");
+                        string action = ht.OrderType == TimHanewich.Investing.Simulation.TransactionType.Buy ? "[green]Buy[/]" : "[red]Sell[/]";
+                        string sym = "[bold]" + ht.Symbol + "[/]";
+                        string shares = ht.Quantity.ToString("#,##0");
+                        string px = "$" + ht.ExecutedPrice.ToString("#,##0.00");
+                        string total = "$" + (ht.ExecutedPrice * ht.Quantity).ToString("#,##0.00");
+                        tradesTable.AddRow(time, action, sym, shares, px, total);
+                    }
+
+                    AnsiConsole.Write(tradesTable);
+                }
+                else
+                {
+                    Console.WriteLine();
+                    AnsiConsole.MarkupLine("[gray]No trades on this day.[/]");
+                }
+
+                // Journal entries for this day
+                JournalEntry[] dayJournals = state.InvestmentJournal
+                    .Where(je => je.EnteredAt.LocalDateTime.Date == selectedDate)
+                    .OrderBy(je => je.EnteredAt)
+                    .ToArray();
+
+                if (dayJournals.Length > 0)
+                {
+                    Console.WriteLine();
+                    AnsiConsole.MarkupLine("[underline]Journal[/]");
+                    foreach (JournalEntry je in dayJournals)
+                    {
+                        AnsiConsole.MarkupLine("[gray]" + je.EnteredAt.LocalDateTime.ToString("h:mm tt") + "[/]");
+                        AnsiConsole.Write(new Panel(Markup.Escape(je.Entry)).BorderColor(Color.Grey));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine();
+                    AnsiConsole.MarkupLine("[gray]No journal entries on this day.[/]");
+                }
+            }
         }
 
 
