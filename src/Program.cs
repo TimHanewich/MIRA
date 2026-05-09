@@ -95,84 +95,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             }
             else if (selection == "Review Portfolio")
             {
-                //Load state
-                AnsiConsole.Markup("Loading State from storage... ");
-                State state = State.Load();
-                AnsiConsole.MarkupLine("[green]loaded[/]");
-
-                //Gather current portfolio value and such
-                AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
-                DateTimeOffset pp_start_at = DateTimeOffset.Now;
-                PortfolioDashboard pd = await PortfolioDashboard.ConstructAsync(state.Portfolio);
-                DateTimeOffset pp_end_at = DateTimeOffset.Now;
-                AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0.0") + " seconds[/]");
-                Console.WriteLine();
-
-                //Print
-                AnsiConsole.MarkupLine("[bold][underline][blue]MIRA Managed Portfolio[/][/][/]");
-                AnsiConsole.MarkupLine("Cash Balance: $" + state.Portfolio.Cash.ToString("#,##0.00"));
-                AnsiConsole.MarkupLine("Trades made: " + state.Portfolio.HoldingTransactionLog.Count.ToString("#,##0"));
-                Console.WriteLine();
-
-                //Print total profitability
-                AnsiConsole.MarkupLine("[underline]Profitability[/]");
-                AnsiConsole.MarkupLine("Cash Invested: [bold]$" + pd.CashInjected.ToString("#,##0") + "[/]");
-                AnsiConsole.MarkupLine("Total Portfolio Value (inc. cash): [bold]$" + (pd.HoldingsValue + pd.CashBalance).ToString("#,##0") + "[/]");
-                if (pd.TotalGainLoss > 0.0f)
-                {
-                   AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + Math.Abs(pd.TotalGainLoss).ToString("#,##0") + "[/][/]"); 
-                }
-                else
-                {
-                    AnsiConsole.MarkupLine("Net Loss: [red][bold]$" + Math.Abs(pd.TotalGainLoss).ToString("#,##0") + "[/][/]"); 
-                }
-                Console.WriteLine();
-
-                //Sort holding performances by gain (return) from most to least
-                PortfolioHolding[] sorted_phs = pd.Holdings.OrderByDescending(hp => hp.UnrealizedGainLoss).ToArray();
-
-                //Create holdings table
-                Table t = new Table();
-                t.AddColumn("Symbol");
-                t.AddColumn("Day Change");
-                t.AddColumn("Price");
-                t.AddColumn("Shares");
-                t.AddColumn("Value");
-                t.AddColumn("Allocation");
-                t.AddColumn("Cost Basis");                
-                t.AddColumn("Unr. Gain/Loss");
-                t.AddColumn("Unr. Gain/Loss %");
-
-                foreach (PortfolioHolding ph in sorted_phs)
-                {
-                    //Calculate allocation %
-                    float allocationP = (ph.PositionValue / pd.HoldingsValue)*100;
-
-                    string color = ph.UnrealizedGainLoss >= 0 ? "green" : "red";
-                    string dayColor = ph.DayChangePercent >= 0 ? "green" : "red";
-
-                    string symbol = "[bold]" + ph.Symbol + "[/]";
-                    string dayChange = "[" + dayColor + "]" + ph.DayChangePercent.ToString("#0.0") + "%" + "[/]";
-                    string price = "$" + ph.CurrentPrice.ToString("#,##0.00");
-                    string quantity = ph.QuantityOwned.ToString("#,##0");
-                    string value = "$" + ph.PositionValue.ToString("#,##0");
-                    string allocation = allocationP.ToString("#0.0") + "%";
-                    string costBasis = "$" + ph.TotalCostBasis.ToString("#,##0");
-                    string gainLoss = "[" + color + "]" + "$" + ph.UnrealizedGainLoss.ToString("#,##0") + "[/]";
-                    string gainLossPercent = "[" + color + "]" + ph.UnrealizedGainLossPercent.ToString("#0.0") + "%" + "[/]";
-
-                    t.AddRow(symbol, dayChange, price, quantity, value, allocation, costBasis, gainLoss, gainLossPercent);
-                }
-
-                //Print table
-                AnsiConsole.MarkupLine("[underline]Holdings[/]");
-                AnsiConsole.Write(t);
-                Console.WriteLine();
-
-                //Print consumption metrics
-                AnsiConsole.MarkupLine("[underline][gray]Cumulative Consumption[/][/]");
-                AnsiConsole.MarkupLine("[gray]Input Tokens: " + state.InputTokensConsumed.ToString("#,##0") + "[/]");
-                AnsiConsole.MarkupLine("[gray]Output Tokens: " + state.OutputTokensConsumed.ToString("#,##0") + "[/]");
+                await ReviewPortfolioAsync();
             }
             else
             {
@@ -418,6 +341,87 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             AnsiConsole.MarkupLine("Going to sleep. Good bye.");
         }
 
+        public static async Task ReviewPortfolioAsync()
+        {
+            //Load state
+            AnsiConsole.Markup("Loading State from storage... ");
+            State state = State.Load();
+            AnsiConsole.MarkupLine("[green]loaded[/]");
+
+            //Gather current portfolio value and such
+            AnsiConsole.Markup("Gathering portfolio performance details for " + state.Portfolio.Holdings().Length.ToString() + " holdings... ");
+            DateTimeOffset pp_start_at = DateTimeOffset.Now;
+            PortfolioDashboard pd = await PortfolioDashboard.ConstructAsync(state.Portfolio);
+            DateTimeOffset pp_end_at = DateTimeOffset.Now;
+            AnsiConsole.MarkupLine("[green]done after " + (pp_end_at - pp_start_at).TotalSeconds.ToString("#,##0.0") + " seconds[/]");
+            Console.WriteLine();
+
+            //Print
+            AnsiConsole.MarkupLine("[bold][underline][blue]MIRA Managed Portfolio[/][/][/]");
+            AnsiConsole.MarkupLine("Cash Balance: $" + state.Portfolio.Cash.ToString("#,##0.00"));
+            AnsiConsole.MarkupLine("Trades made: " + state.Portfolio.HoldingTransactionLog.Count.ToString("#,##0"));
+            Console.WriteLine();
+
+            //Print total profitability
+            AnsiConsole.MarkupLine("[underline]Profitability[/]");
+            AnsiConsole.MarkupLine("Cash Invested: [bold]$" + pd.CashInjected.ToString("#,##0") + "[/]");
+            AnsiConsole.MarkupLine("Total Portfolio Value (inc. cash): [bold]$" + (pd.HoldingsValue + pd.CashBalance).ToString("#,##0") + "[/]");
+            if (pd.TotalGainLoss > 0.0f)
+            {
+                AnsiConsole.MarkupLine("Net Profit: [green][bold]$" + Math.Abs(pd.TotalGainLoss).ToString("#,##0") + "[/][/]"); 
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("Net Loss: [red][bold]$" + Math.Abs(pd.TotalGainLoss).ToString("#,##0") + "[/][/]"); 
+            }
+            Console.WriteLine();
+
+            //Sort holding performances by gain (return) from most to least
+            PortfolioHolding[] sorted_phs = pd.Holdings.OrderByDescending(hp => hp.UnrealizedGainLoss).ToArray();
+
+            //Create holdings table
+            Table t = new Table();
+            t.AddColumn("Symbol");
+            t.AddColumn("Day Change");
+            t.AddColumn("Price");
+            t.AddColumn("Shares");
+            t.AddColumn("Value");
+            t.AddColumn("Allocation");
+            t.AddColumn("Cost Basis");                
+            t.AddColumn("Unr. Gain/Loss");
+            t.AddColumn("Unr. Gain/Loss %");
+
+            foreach (PortfolioHolding ph in sorted_phs)
+            {
+                //Calculate allocation %
+                float allocationP = (ph.PositionValue / pd.HoldingsValue)*100;
+
+                string color = ph.UnrealizedGainLoss >= 0 ? "green" : "red";
+                string dayColor = ph.DayChangePercent >= 0 ? "green" : "red";
+
+                string symbol = "[bold]" + ph.Symbol + "[/]";
+                string dayChange = "[" + dayColor + "]" + ph.DayChangePercent.ToString("#0.0") + "%" + "[/]";
+                string price = "$" + ph.CurrentPrice.ToString("#,##0.00");
+                string quantity = ph.QuantityOwned.ToString("#,##0");
+                string value = "$" + ph.PositionValue.ToString("#,##0");
+                string allocation = allocationP.ToString("#0.0") + "%";
+                string costBasis = "$" + ph.TotalCostBasis.ToString("#,##0");
+                string gainLoss = "[" + color + "]" + "$" + ph.UnrealizedGainLoss.ToString("#,##0") + "[/]";
+                string gainLossPercent = "[" + color + "]" + ph.UnrealizedGainLossPercent.ToString("#0.0") + "%" + "[/]";
+
+                t.AddRow(symbol, dayChange, price, quantity, value, allocation, costBasis, gainLoss, gainLossPercent);
+            }
+
+            //Print table
+            AnsiConsole.MarkupLine("[underline]Holdings[/]");
+            AnsiConsole.Write(t);
+            Console.WriteLine();
+
+            //Print consumption metrics
+            AnsiConsole.MarkupLine("[underline][gray]Cumulative Consumption[/][/]");
+            AnsiConsole.MarkupLine("[gray]Input Tokens: " + state.InputTokensConsumed.ToString("#,##0") + "[/]");
+            AnsiConsole.MarkupLine("[gray]Output Tokens: " + state.OutputTokensConsumed.ToString("#,##0") + "[/]");
+        }
 
 
         //Function invoked
