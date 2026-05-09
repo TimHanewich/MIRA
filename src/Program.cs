@@ -49,7 +49,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             Console.WriteLine();
 
             //Validate settings
-            AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
+            AnsiConsole.MarkupLine("[underline]Validating Setup[/]");
             AnsiConsole.Markup("Loading settings... ");
             MIRASettings settings = MIRASettings.Load();
             AnsiConsole.MarkupLine("[green]loaded![/]");
