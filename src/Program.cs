@@ -452,7 +452,13 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
                 daySelect.AddChoice("← Back");
                 foreach (DateTime d in sortedDates)
                 {
-                    daySelect.AddChoice(d.ToString("yyyy-MM-dd (dddd)"));
+                    int tradeCount = state.Portfolio.HoldingTransactionLog.Count(ht => ht.TransactedAt.LocalDateTime.Date == d);
+                    string label = d.ToString("yyyy-MM-dd (dddd)");
+                    if (tradeCount > 0)
+                    {
+                        label += " (" + tradeCount + " trade" + (tradeCount != 1 ? "s" : "") + ")";
+                    }
+                    daySelect.AddChoice(label);
                 }
                 string daySelection = AnsiConsole.Prompt(daySelect);
 
