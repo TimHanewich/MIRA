@@ -133,6 +133,9 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
                     }
                 }
 
+                //new line
+                Console.WriteLine();
+
                 //Wake!
                 await WakeAsync(AgentMode.Autonomous, CustInstr);
             }
@@ -339,6 +342,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
 
             //Shutdown
             AnsiConsole.MarkupLine("Going to sleep. Good bye.");
+            Console.WriteLine();
         }
 
         public static async Task ReviewPortfolioAsync()
