@@ -46,7 +46,31 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             AnsiConsole.MarkupLine("[bold][underline]Welcome to MIRA![/][/]");
             AnsiConsole.MarkupLine("[bold]MIRA[/] is an autonomous investing research agent that researches the market, develops strategies, and manages a persistent paper portfolio.");
             AnsiConsole.MarkupLine("[gray]• Config Dir: " + Tools.ConfigDirectoryPath + "[/]");
-            
+            Console.WriteLine();
+
+            //Validate settings
+            AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
+            AnsiConsole.Markup("Loading settings... ");
+            MIRASettings settings = MIRASettings.Load();
+            AnsiConsole.MarkupLine("[green]loaded![/]");
+            if (settings.FoundryEndpoint == null || settings.FoundryApiKey == null || settings.FoundryModel == null)
+            {
+                AnsiConsole.MarkupLine("[red]Settings not populated! Please update settings at " + MIRASettings.SavePath + ".[/]");
+                return;
+            }
+
+            //Validate YFinanceServerBridge
+            YFinanceServerBridge yfsb = new YFinanceServerBridge();
+            AnsiConsole.Markup("Confirming YFinance-Server online... ");
+            bool online = await yfsb.AliveAsync();
+            AnsiConsole.MarkupLine("[green]complete[/]");
+            if (online == false)
+            {
+                AnsiConsole.MarkupLine("[red]yfinance-server is not online. This is needed for stock quotes. Please start this and try again.[/]");
+                return;
+            }
+            Console.WriteLine();
+
             //Ask what to do
             Console.WriteLine();
             SelectionPrompt<string> SelectToDo = new SelectionPrompt<string>();
@@ -160,29 +184,6 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
         {
             //Ask for custom instruction input
             string? CustInstr = Tools.AskForCustomInstructions();
-            Console.WriteLine();
-
-            //Validate settings
-            AnsiConsole.MarkupLine("[underline]Validating Settings[/]");
-            AnsiConsole.Markup("Loading settings... ");
-            MIRASettings settings = MIRASettings.Load();
-            AnsiConsole.MarkupLine("[green]loaded![/]");
-            if (settings.FoundryEndpoint == null || settings.FoundryApiKey == null || settings.FoundryModel == null)
-            {
-                AnsiConsole.MarkupLine("[red]Settings not populated! Please update settings at " + MIRASettings.SavePath + ".[/]");
-                return;
-            }
-
-            //Validate YFinanceServerBridge
-            YFinanceServerBridge yfsb = new YFinanceServerBridge();
-            AnsiConsole.Markup("Confirming YFinance-Server online... ");
-            bool online = await yfsb.AliveAsync();
-            AnsiConsole.MarkupLine("[green]complete[/]");
-            if (online == false)
-            {
-                AnsiConsole.MarkupLine("[red]yfinance-server is not online. This is needed for stock quotes. Please start this and try again.[/]");
-                return;
-            }
             Console.WriteLine();
 
             //Continuously wake
