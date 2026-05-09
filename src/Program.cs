@@ -54,7 +54,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             AnsiConsole.MarkupLine("[green]loaded![/]");
             if (settings.FoundryEndpoint == null || settings.FoundryApiKey == null || settings.FoundryModel == null)
             {
-                AnsiConsole.MarkupLine("[red]Settings not populated! Please update settings at " + MIRASettings.SavePath + ".[/]");
+                AnsiConsole.MarkupLine("[red]Settings not populated! Before you proceed, you must update settings at " + MIRASettings.SavePath + ".[/]");
                 return;
             }
 
@@ -66,6 +66,7 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             if (online == false)
             {
                 AnsiConsole.MarkupLine("[red]yfinance-server is not online. This is needed for stock quotes. Please start this and try again.[/]");
+                AnsiConsole.MarkupLine("[red]See the 'Getting Started' section of this project for more information.[/]");
                 return;
             }
             Console.WriteLine();
