@@ -421,6 +421,13 @@ $$ | \_/ $$ |      $$$$$$\       $$ |  $$ |      $$ |  $$ |
             AnsiConsole.MarkupLine("[underline][gray]Cumulative Consumption[/][/]");
             AnsiConsole.MarkupLine("[gray]Input Tokens: " + state.InputTokensConsumed.ToString("#,##0") + "[/]");
             AnsiConsole.MarkupLine("[gray]Output Tokens: " + state.OutputTokensConsumed.ToString("#,##0") + "[/]");
+
+            //I'd like to then prompt the user with a SelectionPrompt of all the days that there has been activity on so far.
+            //To do this I think I will have to loop through all of the previous trades AND JournalEntries. Get a list of dates that have either trades or just a journal entry
+            //(some days wont, like weekends)
+            //I'd like to then prompt  with the SelectionPrompt of all the days.
+            //When a user selects one, it then prints the trades made that day in a table and then down below prints down the journal entry for that day (if either exist!)
+            //And then it goes back to the selection prompt of selecting another day.
         }
 
 
